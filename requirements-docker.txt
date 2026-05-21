@@ -1,0 +1,12 @@
+# OpenGait runtime deps (PyTorch/torchvision come from the base image)
+pyyaml
+tensorboard
+opencv-python
+tqdm
+py7zr
+kornia
+einops
+matplotlib
+scikit-learn
+Pillow
+imageio
