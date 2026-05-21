@@ -4,6 +4,7 @@ services:
     container_name: opengait
     volumes:
       - .:/workspace
+      - /home/kera/data/gait:/data/gait
     working_dir: /workspace
     tty: true
     stdin_open: true

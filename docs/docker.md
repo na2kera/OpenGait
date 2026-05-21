@@ -30,11 +30,14 @@ docker exec -it opengait bash
 
 作業ディレクトリは `/workspace`（ホストのリポジトリがマウントされます）。
 
+データセットはホストの `/home/kera/data/gait` をコンテナの `/data/gait` にマウントします（`docker-compose.yml` 参照）。CASIA-B の pkl は `/data/gait/CASIA-B-pkl` を `dataset_root` に指定します。
+
 ## 3. 動作確認（コンテナ内）
 
 ```bash
 python -c "import torch; print('cuda:', torch.cuda.is_available(), 'gpus:', torch.cuda.device_count())"
 python -c "import cv2, kornia, einops, yaml; print('deps ok')"
+ls /data/gait/CASIA-B-pkl | head
 ```
 
 ## 4. 学習・評価
@@ -44,8 +47,8 @@ python -c "import cv2, kornia, einops, yaml; print('deps ok')"
 単 GPU の例:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 opengait/main.py \
-  --cfgs ./configs/baseline/baseline.yaml --phase train
+CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 opengait/main.py \
+  --cfgs ./configs/gaitbase/gaitbase_da_casiab.yaml --phase train
 ```
 
 複数 GPU の例は [0.get_started.md](0.get_started.md) の Train / Test セクションと同じです。
