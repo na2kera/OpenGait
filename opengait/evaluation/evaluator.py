@@ -16,7 +16,7 @@ def de_diag(acc, each_angle=False):
 
 
 def cross_view_gallery_evaluation(feature, label, seq_type, view, dataset, metric):
-    '''More details can be found: More details can be found in 
+    '''More details can be found: More details can be found in
         [A Comprehensive Study on the Evaluation of Silhouette-based Gait Recognition](https://ieeexplore.ieee.org/document/9928336).
     '''
     probe_seq_dict = {'CASIA-B': {'NM': ['nm-01'], 'BG': ['bg-01'], 'CL': ['cl-01']},
@@ -87,10 +87,13 @@ def single_view_gallery_evaluation(feature, label, seq_type, view, dataset, metr
     if dataset == 'CASIA-E':
         view_list.remove("270")
     if dataset == 'SUSTech1K':
-        num_rank = 5 
+        num_rank = 5
     view_num = len(view_list)
 
+    probe_counter = {} #####
+
     for (type_, probe_seq) in probe_seq_dict[dataset].items():
+        probe_counter[type_] = 0   # ★ 追加
         acc[type_] = np.zeros((view_num, view_num, num_rank)) - 1.
         for (v1, probe_view) in enumerate(view_list):
             pseq_mask = np.isin(seq_type, probe_seq) & np.isin(
@@ -98,6 +101,12 @@ def single_view_gallery_evaluation(feature, label, seq_type, view, dataset, metr
             pseq_mask = pseq_mask if 'SUSTech1K' not in dataset   else np.any(np.asarray(
                         [np.char.find(seq_type, probe)>=0 for probe in probe_seq]), axis=0
                             ) & np.isin(view, probe_view) # For SUSTech1K only
+
+
+
+            # ★ probe 数をカウント
+            probe_counter[type_] += np.sum(pseq_mask)
+
             probe_x = feature[pseq_mask, :]
             probe_y = label[pseq_mask]
 
@@ -113,6 +122,15 @@ def single_view_gallery_evaluation(feature, label, seq_type, view, dataset, metr
                 idx = dist.topk(num_rank, largest=False)[1].cpu().numpy()
                 acc[type_][v1, v2, :] = np.round(np.sum(np.cumsum(np.reshape(probe_y, [-1, 1]) == gallery_y[idx[:, 0:num_rank]], 1) > 0,
                                                      0) * 100 / dist.shape[0], 2)
+
+
+
+    # ===== probe 数の表示 =====
+    print("\n[Probe count summary]")
+    for k, v in probe_counter.items():
+        print(f"{k}: {v}")
+
+
 
     result_dict = {}
     msg_mgr.log_info('===Rank-1 (Exclude identical-view cases)===')
@@ -418,44 +436,44 @@ def evaluate_CCPG(data, dataset, metric='euc'):
 def evaluate_scoliosis(data, dataset, metric='euc'):
 
     msg_mgr = get_msg_mgr()
-    
+
     from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, confusion_matrix
 
     logits = np.array(data['embeddings'])
     labels = data['types']
-    
-    # Label mapping: negative->0, neutral->1, positive->2  
+
+    # Label mapping: negative->0, neutral->1, positive->2
     label_map = {'negative': 0, 'neutral': 1, 'positive': 2}
     true_ids = np.array([label_map[status] for status in labels])
-    
+
     pred_ids = np.argmax(logits.mean(-1), axis=-1)
-    
+
     # Calculate evaluation metrics
     # Total Accuracy: proportion of correctly predicted samples among all samples
     accuracy = accuracy_score(true_ids, pred_ids)
-    
+
     # Macro-average Precision: average of precision scores for each class
     precision = precision_score(true_ids, pred_ids, average='macro', zero_division=0)
-    
-    # Macro-average Recall: average of recall scores for each class  
+
+    # Macro-average Recall: average of recall scores for each class
     recall = recall_score(true_ids, pred_ids, average='macro', zero_division=0)
-    
+
     # Macro-average F1: average of F1 scores for each class
     f1 = f1_score(true_ids, pred_ids, average='macro', zero_division=0)
-    
+
     # Confusion matrix (for debugging)
     # cm = confusion_matrix(true_ids, pred_ids, labels=[0, 1, 2])
     # class_names = ['Negative', 'Neutral', 'Positive']
-    
+
     # Print results
     msg_mgr.log_info(f"Total Accuracy: {accuracy*100:.2f}%")
-    msg_mgr.log_info(f"Macro-avg Precision: {precision*100:.2f}%") 
+    msg_mgr.log_info(f"Macro-avg Precision: {precision*100:.2f}%")
     msg_mgr.log_info(f"Macro-avg Recall: {recall*100:.2f}%")
     msg_mgr.log_info(f"Macro-avg F1 Score: {f1*100:.2f}%")
-    
+
     return {
         "scalar/test_accuracy/": accuracy,
-        "scalar/test_precision/": precision, 
+        "scalar/test_precision/": precision,
         "scalar/test_recall/": recall,
         "scalar/test_f1/": f1
     }
@@ -467,7 +485,7 @@ def evaluate_FreeGait(data, dataset, metric='euc'):
     import json
     probe_sets = json.load(
         open('./datasets/FreeGait/FreeGait.json', 'rb'))['PROBE_SET']
-    
+
     probe_mask = []
     for id, ty, sq in zip(labels, cams, time_seqs):
         if '-'.join([id, ty, sq]) in probe_sets:
@@ -500,3 +518,25 @@ def evaluate_FreeGait(data, dataset, metric='euc'):
     # print_csv_format(dataset_name, results)
     msg_mgr.log_info(results)
     return results
+
+
+def dump_features(data, dataset, dump_path='./dgv2_features/dump.npz'):
+    """Save inference embeddings (+labels/types/views) to an npz file.
+
+    Wire this up via evaluator_cfg:
+        eval_func: dump_features
+        dump_path: ./dgv2_features/<subset>/train.npz
+    """
+    embeddings = np.asarray(data['embeddings'])
+    labels = np.asarray(data['labels'])
+    types = np.asarray(data['types'])
+    views = np.asarray(data['views'])
+    out_dir = os.path.dirname(dump_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    np.savez_compressed(dump_path, embeddings=embeddings,
+                        labels=labels, types=types, views=views)
+    msg_mgr = get_msg_mgr()
+    msg_mgr.log_info('[dump_features] dataset=%s embeddings=%s -> %s' %
+                     (dataset, str(embeddings.shape), dump_path))
+    return {'scalar/dump/num_seqs': int(embeddings.shape[0])}
