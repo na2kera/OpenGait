@@ -13,9 +13,10 @@ class CollateFn(object):
         self.ordered = sample_type[1]
         if self.sampler not in ['fixed', 'unfixed', 'all']:
             raise ValueError
-        if self.ordered not in ['ordered', 'unordered']:
+        if self.ordered not in ['ordered', 'unordered', 'allordered']:
             raise ValueError
         self.ordered = sample_type[1] == 'ordered'
+        self.allordered = self.ordered and "all" in sample_type[1]
 
         # fixed cases
         if self.sampler == 'fixed':
@@ -32,6 +33,8 @@ class CollateFn(object):
         self.frames_all_limit = -1
         if self.sampler == 'all' and 'frames_all_limit' in sample_config:
             self.frames_all_limit = sample_config['frames_all_limit']
+
+        self.points_in_use = sample_config.get('points_in_use')
 
     def __call__(self, batch):
         batch_size = len(batch)
@@ -60,8 +63,16 @@ class CollateFn(object):
                 else:
                     frames_num = random.choice(
                         list(range(self.frames_num_min, self.frames_num_max+1)))
+                if self.allordered:
+                    replace = seq_len < frames_num
 
-                if self.ordered:
+                    if seq_len == 0:
+                        get_msg_mgr().log_debug('Find no frames in the sequence %s-%s-%s.'
+                                                % (str(labs_batch[count]), str(typs_batch[count]), str(vies_batch[count])))
+                    count += 1
+                    indices = sorted(np.random.choice(
+                        indices, frames_num, replace=replace))
+                elif self.ordered:
                     fs_n = frames_num + self.frames_skip_num
                     if seq_len < fs_n:
                         it = math.ceil(fs_n / seq_len)
@@ -88,7 +99,14 @@ class CollateFn(object):
 
             for i in range(feature_num):
                 for j in indices[:self.frames_all_limit] if self.frames_all_limit > -1 and len(indices) > self.frames_all_limit else indices:
-                    sampled_fras[i].append(seqs[i][j])
+                    point_cloud_index = self.points_in_use.get('pointcloud_index') if self.points_in_use else None
+                    if self.points_in_use is not None and point_cloud_index is not None and i == point_cloud_index:
+                        points_num = self.points_in_use.get('points_num')
+                        sample_points = (random.choices(range(len(seqs[i][j])), k=points_num)
+                                if points_num is not None else list(range(len(seqs[i][j]))))
+                        sampled_fras[i].append(np.asarray([seqs[i][j][p] for p in sample_points]))
+                    else:
+                        sampled_fras[i].append(seqs[i][j])
             return sampled_fras
 
         # f: feature_num

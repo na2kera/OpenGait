@@ -181,3 +181,6 @@ pretreatment.log
 ERROR
 \[internal\]
 transferring
+
+.cursor/
+.DS_Store

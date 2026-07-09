@@ -17,7 +17,7 @@ def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
                      padding=dilation, groups=groups, bias=False, dilation=dilation)
 
 class AttentionFusion(nn.Module): 
-    def __init__(self, in_channels, squeeze_ratio, feat_len):
+    def __init__(self, in_channels=256, squeeze_ratio=16, feat_len=2):
         super(AttentionFusion, self).__init__()
         hidden_dim = int(in_channels / squeeze_ratio)
         self.feat_len = feat_len
@@ -26,7 +26,8 @@ class AttentionFusion(nn.Module):
                 conv1x1(in_channels * feat_len, hidden_dim), 
                 nn.BatchNorm2d(hidden_dim), 
                 nn.ReLU(inplace=True), 
-                conv3x3(hidden_dim, hidden_dim), 
+                # conv3x3(hidden_dim, hidden_dim), 
+                conv1x1(hidden_dim, hidden_dim), 
                 nn.BatchNorm2d(hidden_dim), 
                 nn.ReLU(inplace=True), 
                 conv1x1(hidden_dim, in_channels * feat_len), 
@@ -48,6 +49,25 @@ class AttentionFusion(nn.Module):
             retun += feat_list[i]*score[:,:,i]
         return retun
 
+class CatFusion(nn.Module): 
+    def __init__(self, in_channels=64):
+        super(CatFusion, self).__init__()
+        self.conv = SetBlockWrapper(
+            nn.Sequential(
+                conv1x1(in_channels * 2, in_channels), 
+            )
+        )
+
+    def forward(self, feat_list): 
+        '''
+            sil_feat: [n, c, s, h, w]
+            map_feat: [n, c, s, h, w]
+        '''
+        # print(feat_list.shape)
+        feats = torch.cat(feat_list, dim=1)
+        retun = self.conv(feats)
+        return retun
+
 
 from torchvision.models.resnet import BasicBlock, Bottleneck, ResNet
 from ...modules import BasicConv2d
@@ -66,8 +86,8 @@ class Pre_ResNet9(ResNet):
 
         # Not used #
         self.fc = None
-        self.layer2 = None
-        self.layer3 = None
+        # self.layer2 = None
+        # self.layer3 = None
         self.layer4 = None
         ############
         self.inplanes = channels[0]
@@ -77,6 +97,10 @@ class Pre_ResNet9(ResNet):
 
         self.layer1 = self._make_layer(
             block, channels[0], layers[0], stride=strides[0], dilate=False)
+        self.layer2 = self._make_layer(
+            block, channels[1], layers[1], stride=strides[1], dilate=False)
+        self.layer3 = self._make_layer(
+            block, channels[2], layers[2], stride=strides[2], dilate=False)
 
     def _make_layer(self, block, planes, blocks, stride=1, dilate=False):
         if blocks >= 1:
@@ -93,6 +117,8 @@ class Pre_ResNet9(ResNet):
             x = self.maxpool(x)
 
         x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
         return x
 
 class Post_ResNet9(ResNet):
@@ -109,12 +135,15 @@ class Post_ResNet9(ResNet):
         self.bn1 = None
         self.relu = None
         self.layer1 = None
+        self.layer2 = None
+        self.layer3 = None
+
         ############
-        self.inplanes = channels[0]
-        self.layer2 = self._make_layer(
-            block, channels[1], layers[1], stride=strides[1], dilate=False)
-        self.layer3 = self._make_layer(
-            block, channels[2], layers[2], stride=strides[2], dilate=False)
+        self.inplanes = channels[2]
+        # self.layer2 = self._make_layer(
+        #     block, channels[1], layers[1], stride=strides[1], dilate=False)
+        # self.layer3 = self._make_layer(
+        #     block, channels[2], layers[2], stride=strides[2], dilate=False)
         self.layer4 = self._make_layer(
             block, channels[3], layers[3], stride=strides[3], dilate=False)
 
@@ -126,22 +155,25 @@ class Post_ResNet9(ResNet):
         return layer
 
     def forward(self, x):
-        x = self.layer2(x)
-        x = self.layer3(x)
+        # x = self.layer2(x)
+        # x = self.layer3(x)
         x = self.layer4(x)
         return x
 
 
 from utils import get_valid_args, is_list, is_dict, np2var, ts2np, list2var, get_attr_from
 from ... import backbones
-class Baseline(nn.Module):
+class GaitBaseFusion_denoise(nn.Module):
     def __init__(self, model_cfg):
-        super(Baseline, self).__init__()
-        model_cfg['backbone_cfg']['in_channel'] = model_cfg['Denoising_Branch']['target_dim']
-        self.pre_part = SetBlockWrapper(Pre_ResNet9(**model_cfg['backbone_cfg']))
+        super(GaitBaseFusion_denoise, self).__init__()
+        # model_cfg['backbone_cfg']['in_channel'] = model_cfg['Denoising_Branch']['target_dim']
+        # model_cfg['backbone_cfg']['in_channel'] = model_cfg["Attn_Branch"]["target_dim"]
+        # model_cfg['backbone_cfg']['in_channel'] = 16
+        model_cfg['backbone_cfg']['in_channel'] = 2
+        self.pre_attn = SetBlockWrapper(Pre_ResNet9(**model_cfg['backbone_cfg']))
 
-        model_cfg['backbone_cfg']['in_channel'] = model_cfg['Appearance_Branch']['target_dim']
-        self.pre_rgb = SetBlockWrapper(Pre_ResNet9(**model_cfg['backbone_cfg']))
+        model_cfg['backbone_cfg']['in_channel'] = 6
+        self.pre_noise = SetBlockWrapper(Pre_ResNet9(**model_cfg['backbone_cfg']))
 
         self.post_backbone = SetBlockWrapper(Post_ResNet9(**model_cfg['backbone_cfg']))
         self.FCs = SeparateFCs(**model_cfg['SeparateFCs'])
@@ -149,7 +181,10 @@ class Baseline(nn.Module):
         self.TP = PackSequenceWrapper(torch.max)
         self.HPP = HorizontalPoolingPyramid(bin_num=model_cfg['bin_num'])
 
-        self.fusion = AttentionFusion(**model_cfg['AttentionFusion'])
+        # self.fusion = AttentionFusion(**model_cfg['AttentionFusion'])
+        self.fusion = AttentionFusion()
+        # self.fusion = CatFusion()
+        # self.fusion = CatFusion(256)
 
     def get_backbone(self, backbone_cfg):
         """Get the backbone of the model."""
@@ -164,18 +199,19 @@ class Baseline(nn.Module):
         raise ValueError(
             "Error type for -Backbone-Cfg-, supported: (A list of) dict.")
 
-    def vis_forward(self, denosing, appearance, seqL):
-        denosing = self.pre_part(denosing)  # [n, c, s, h, w]
-        appearance = self.pre_rgb(appearance)  # [n, c, s, h, w]
-        outs = self.fusion([denosing, appearance])
-        return denosing, appearance, outs
+    def vis_forward(self, denosing, attn, seqL):
+        denosing = self.pre_attn(denosing)  # [n, c, s, h, w]
+        attn = self.pre_noise(attn)  # [n, c, s, h, w]
+        outs = self.fusion([denosing, attn])
+        return denosing, attn, outs
 
-    def forward(self, denosing, appearance, seqL):
-        denosing = self.pre_part(denosing)  # [n, c, s, h, w]
-        appearance = self.pre_rgb(appearance)  # [n, c, s, h, w]
-        outs = self.fusion([denosing, appearance])
+    def forward(self, denosing, attn, seqL):
+        attn = self.pre_attn(attn)  # [n, c, s, h, w]
+        denosing= self.pre_noise(denosing)  # [n, c, s, h, w]
+        outs = self.fusion([denosing, attn])
+        # outs = denosing + attn
         # heat_mapt = rearrange(outs, 'n c s h w -> n s h w c')
-        del denosing, appearance
+        del denosing, attn
         outs = self.post_backbone(outs)
 
         # Temporal Pooling, TP
@@ -189,92 +225,3 @@ class Baseline(nn.Module):
         # return embed_1, logits, heat_mapt
         return embed_1, logits
 
-
-class Baseline_Single(nn.Module):
-    def __init__(self, model_cfg):
-        super(Baseline_Single, self).__init__()
-        self.pre_rgb = SetBlockWrapper(Pre_ResNet9(**model_cfg['backbone_cfg']))
-        self.post_backbone = SetBlockWrapper(Post_ResNet9(**model_cfg['backbone_cfg']))
-        self.FCs = SeparateFCs(**model_cfg['SeparateFCs'])
-        self.BNNecks = SeparateBNNecks(**model_cfg['SeparateBNNecks'])
-        self.TP = PackSequenceWrapper(torch.max)
-        self.HPP = HorizontalPoolingPyramid(bin_num=model_cfg['bin_num'])
-
-    def get_backbone(self, backbone_cfg):
-        """Get the backbone of the model."""
-        if is_dict(backbone_cfg):
-            Backbone = get_attr_from([backbones], backbone_cfg['type'])
-            valid_args = get_valid_args(Backbone, backbone_cfg, ['type'])
-            return Backbone(**valid_args)
-        if is_list(backbone_cfg):
-            Backbone = nn.ModuleList([self.get_backbone(cfg)
-                                      for cfg in backbone_cfg])
-            return Backbone
-        raise ValueError(
-            "Error type for -Backbone-Cfg-, supported: (A list of) dict.")
-
-    def pre_forward(self, appearance, *args, **kwargs):
-        outs = self.pre_rgb(appearance, *args, **kwargs)  # [n, c, s, h, w]
-        outs = self.post_backbone(outs, *args, **kwargs)
-        return outs
-
-    def forward(self, appearance, seqL, *args, **kwargs):
-        outs = self.pre_rgb(appearance, *args, **kwargs)  # [n, c, s, h, w]
-        outs = self.post_backbone(outs, *args, **kwargs)
-        # Temporal Pooling, TP
-        outs = self.TP(outs, seqL, options={"dim": 2})[0]  # [n, c, h, w]
-        # Horizontal Pooling Matching, HPM
-        outs = self.HPP(outs)  # [n, c, p]
-        embed_1 = self.FCs(outs)  # [n, c, p]
-        _, logits = self.BNNecks(embed_1)  # [n, c, p]
-        return embed_1, logits
-    
-    def test_1(self, appearance, *args, **kwargs):
-        outs = self.pre_rgb(appearance, *args, **kwargs)  # [n, c, s, h, w]
-        outs = self.post_backbone(outs, *args, **kwargs)
-        return outs
-
-    def test_2(self, outs, seqL):
-        outs = self.TP(outs, seqL, options={"dim": 2})[0]  # [n, c, h, w]
-        outs = self.HPP(outs)  # [n, c, p]
-        embed_1 = self.FCs(outs)  # [n, c, p]
-        _, logits = self.BNNecks(embed_1)  # [n, c, p]
-        return embed_1, logits
-
-class Baseline_Share(nn.Module):
-    def __init__(self, model_cfg):
-        super(Baseline_Share, self).__init__()
-        self.head_num = model_cfg['head_num']
-        self.num_FPN = model_cfg['total_layer_num'] // model_cfg['group_layer_num']
-        self.real_gait = nn.ModuleList([
-            Baseline_Single(model_cfg) for _ in range(self.head_num)
-        ])
-        self.Gait_List = nn.ModuleList([
-            self.real_gait[_ // (self.num_FPN // self.head_num)] for _ in range(self.num_FPN)
-        ])
-
-    def forward(self, x, seqL):
-        x = self.test_1(x)
-        embed_list, log_list = self.test_2(x, seqL)
-        return embed_list, log_list
-
-    def test_1(self, x, *args, **kwargs):
-        # x: [n, c, s, h, w]
-        n,c,s,h,w = x.shape
-        x_list = list(torch.chunk(x, self.num_FPN, dim=1))
-        for i in range(self.num_FPN):
-            x_list[i] = self.Gait_List[i].test_1(x_list[i], *args, **kwargs)
-        x = torch.concat(x_list, dim=1)
-        return x
-
-    def test_2(self, x, seqL):
-        # x: [n, c, s, h, w]
-        # embed_1: [n, c, p]
-        x_list = torch.chunk(x, self.num_FPN, dim=1)
-        embed_list = []
-        log_list = []
-        for i in range(self.num_FPN):
-            embed_1, logits = self.Gait_List[i].test_2(x_list[i], seqL)
-            embed_list.append(embed_1)
-            log_list.append(logits)
-        return embed_list, log_list
