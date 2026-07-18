@@ -1,7 +1,7 @@
 data_cfg:
   dataset_name: CASIA-B
-  dataset_root: ./CASIA-B/GaitDatasetB-silh
-  dataset_partition: ./datasets/CASIA-B/CASIA-B-20.json
+  dataset_root: ./CASIA-B/000-090
+  dataset_partition: ./datasets/CASIA-B/CASIA-B.json
   num_workers: 1
   remove_no_gallery: false # Remove probe if no gallery for it
   test_dataset_name: CASIA-B

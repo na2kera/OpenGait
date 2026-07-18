@@ -7,7 +7,10 @@ from einops import rearrange
 from utils import get_valid_args
 import warnings
 import random
-from torchvision.utils import flow_to_image
+try:
+    from torchvision.utils import flow_to_image
+except ImportError:
+    flow_to_image = None
 from .diffgait_utils.GaitBase_fusion_denoise_flow26_attn import GaitBaseFusion_denoise
 warnings.filterwarnings("ignore", category=FutureWarning)
 from kornia import morphology as morph
