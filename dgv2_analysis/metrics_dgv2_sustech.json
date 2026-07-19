@@ -186,11 +186,11 @@
     "acc_cl": 0.2375,
     "acc_all": 0.40015999999999996,
     "subset_name": "000-180",
-    "DeepGaitV2_MSD": 24.105597644806608,
-    "DeepGaitV2_1NN": 6.895989524715575,
-    "DeepGaitV2_kNN": 7.08452477893934,
-    "DeepGaitV2_FID": 88.21464795816412,
-    "FID_train_test_DeepGaitV2": 33.416969964277314
+    "DeepGaitV2_MSD": 23.94942630927152,
+    "DeepGaitV2_1NN": 6.894507301309419,
+    "DeepGaitV2_kNN": 7.082497147412907,
+    "DeepGaitV2_FID": 89.34244343191716,
+    "FID_train_test_DeepGaitV2": 32.935858170181945
   },
   "9": {
     "列1": "000+090",
@@ -211,11 +211,11 @@
     "acc_cl": 0.3738,
     "acc_all": 0.5970600000000001,
     "subset_name": "000-090",
-    "DeepGaitV2_MSD": 43.86439909430889,
-    "DeepGaitV2_1NN": 7.289331676836961,
-    "DeepGaitV2_kNN": 7.518928866869081,
-    "DeepGaitV2_FID": 104.2174358692344,
-    "FID_train_test_DeepGaitV2": 19.20297748237448
+    "DeepGaitV2_MSD": 43.628977763171235,
+    "DeepGaitV2_1NN": 7.265064746436155,
+    "DeepGaitV2_kNN": 7.4925988598302,
+    "DeepGaitV2_FID": 104.99254261579838,
+    "FID_train_test_DeepGaitV2": 18.955348713564348
   },
   "10": {
     "Number of people": 75,
