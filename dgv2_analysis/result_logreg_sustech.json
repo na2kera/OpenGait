@@ -2,19 +2,19 @@
   "target": "acc_all",
   "tau": 0.05,
   "n_pairs": 156,
-  "accuracy": 0.8717948717948718,
-  "macro_f1": 0.862155388471178,
+  "accuracy": 0.8589743589743589,
+  "macro_f1": 0.8468009897490281,
   "label_dist": {
     "0": 36,
     "1": 60,
     "2": 60
   },
   "importance": {
-    "FID_train_test_DeepGaitV2": 1.7853088660732748,
-    "log_people": 1.1399651075699115,
-    "DeepGaitV2_MSD": 1.0469997191298652,
-    "DeepGaitV2_kNN": 1.0375055466040664,
-    "DeepGaitV2_FID": 0.41954377129305964,
-    "DeepGaitV2_1NN": 0.20639286488021188
+    "FID_train_test_DeepGaitV2": 1.7597598584645866,
+    "log_people": 1.1523109714183046,
+    "DeepGaitV2_MSD": 1.0381846010454854,
+    "DeepGaitV2_kNN": 1.035202321332264,
+    "DeepGaitV2_FID": 0.41383513602526384,
+    "DeepGaitV2_1NN": 0.2236654938506942
   }
 }
