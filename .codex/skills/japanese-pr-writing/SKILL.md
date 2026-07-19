@@ -11,7 +11,7 @@ description: OpenGait のPRを作成、下書き、更新するときに、タ�
 
 1. 差分、関連 issue、実行したテストを確認する。不明な内容を推測で補わない。
 2. PR を作成する前に、ベースリポジトリを `https://github.com/na2kera/OpenGait`、ベースブランチをユーザーが指定したブランチ（指定がなければ `master`）にする。リモート名だけで判断せず、URL も確認する。
-3. `gh` を使う場合は `gh pr create --repo na2kera/OpenGait --base <base-branch>` のようにリポジトリとベースブランチを明示する。GitHub の UI を使う場合も、作成画面で base repository と base branch を同じ値に設定する。
+3. `gh` を使う場合は、head ブランチを push して存在を確認した上で、`gh pr create --repo na2kera/OpenGait --base <base-branch> --head <head-branch>` のようにリポジトリ、ベースブランチ、head ブランチを明示する。別リポジトリのブランチを head にする場合は `<owner>:<head-branch>` を指定する。GitHub の UI を使う場合も、作成画面で base repository、base branch、compare branch を同じ意図の値に設定する。
 4. PR の作成直後に、PR の URL と base branch を確認する。`gh pr view <number> --repo na2kera/OpenGait --json url,baseRefName` を使える場合は、URL が `https://github.com/na2kera/OpenGait/pull/` で始まり、`baseRefName` が意図したブランチであることを確認する。一致しなければ、PR を共有・レビュー依頼する前に修正する。
 5. タイトルを日本語で一文にする。変更対象と目的が分かる簡潔な表現にし、必要なら先頭に既存の種別ラベルを付ける。
 6. 説明文を日本語で書く。テンプレートがなければ、原則として次の見出しを使う。
