@@ -1,0 +1,4 @@
+interface:
+  display_name: "日本語PR作成"
+  short_description: "日本語でPRを作成し正しいベースリポジトリを確認する"
+  default_prompt: "Use $japanese-pr-writing to create this OpenGait pull request in Japanese."
