@@ -1,0 +1,4 @@
+interface:
+  display_name: "日本語PR作成"
+  short_description: "プルリクエストのタイトルと説明文を自然な日本語で作成する"
+  default_prompt: "Use $japanese-pr-writing to draft this pull request in Japanese."
