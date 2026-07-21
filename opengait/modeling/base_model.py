@@ -243,14 +243,49 @@ class BaseModel(MetaModel, nn.Module):
                 'optimizer': self.optimizer.state_dict(),
                 'scheduler': self.scheduler.state_dict(),
                 'iteration': iteration}
+            if hasattr(self, 'Scaler'):
+                checkpoint['scaler'] = self.Scaler.state_dict()
             torch.save(checkpoint,
                        osp.join(self.save_path, 'checkpoints/{}-{:0>5}.pt'.format(save_name, iteration)))
+
+    def _validate_training_state(self, checkpoint, save_name):
+        if self.training and self.engine_cfg.get("require_training_state", False):
+            if (self.engine_cfg["optimizer_reset"] or
+                    self.engine_cfg["scheduler_reset"]):
+                raise ValueError(
+                    "A required training-state resume cannot reset the "
+                    "optimizer or scheduler")
+            if not self.engine_cfg["restore_ckpt_strict"]:
+                raise ValueError(
+                    "A required training-state resume must restore model "
+                    "parameters strictly")
+            required = {"optimizer", "scheduler", "iteration"}
+            if self.engine_cfg["enable_float16"]:
+                required.add("scaler")
+            missing = sorted(required - set(checkpoint))
+            if missing:
+                raise KeyError(
+                    "Training resume checkpoint is missing required state "
+                    "{}: {}".format(missing, save_name))
+            expected_iteration = self.engine_cfg.get(
+                "expected_training_iteration")
+            if expected_iteration is None:
+                raise ValueError(
+                    "A required training-state resume must declare its "
+                    "expected iteration")
+            if checkpoint["iteration"] != expected_iteration:
+                raise ValueError(
+                    "Training resume checkpoint iteration mismatch: "
+                    "expected {}, found {} in {}".format(
+                        expected_iteration, checkpoint["iteration"],
+                        save_name))
 
     def _load_ckpt(self, save_name):
         load_ckpt_strict = self.engine_cfg['restore_ckpt_strict']
 
         checkpoint = torch.load(save_name, map_location=torch.device(
             "cuda", self.device))
+        self._validate_training_state(checkpoint, save_name)
         model_state_dict = checkpoint['model']
 
         if not load_ckpt_strict:
@@ -262,15 +297,30 @@ class BaseModel(MetaModel, nn.Module):
         if self.training:
             if not self.engine_cfg["optimizer_reset"] and 'optimizer' in checkpoint:
                 self.optimizer.load_state_dict(checkpoint['optimizer'])
+                self.msg_mgr.log_info(
+                    "Restore Optimizer from %s !!!" % save_name)
             else:
                 self.msg_mgr.log_warning(
                     "Restore NO Optimizer from %s !!!" % save_name)
             if not self.engine_cfg["scheduler_reset"] and 'scheduler' in checkpoint:
                 self.scheduler.load_state_dict(
                     checkpoint['scheduler'])
+                self.msg_mgr.log_info(
+                    "Restore Scheduler from %s !!!" % save_name)
             else:
                 self.msg_mgr.log_warning(
                     "Restore NO Scheduler from %s !!!" % save_name)
+            if hasattr(self, 'Scaler'):
+                restore_scaler = (
+                    not self.engine_cfg["optimizer_reset"] and
+                    'scaler' in checkpoint)
+                if restore_scaler:
+                    self.Scaler.load_state_dict(checkpoint['scaler'])
+                    self.msg_mgr.log_info(
+                        "Restore AMP Scaler from %s !!!" % save_name)
+                else:
+                    self.msg_mgr.log_warning(
+                        "Restore NO AMP Scaler from %s !!!" % save_name)
         self.msg_mgr.log_info("Restore Parameters from %s !!!" % save_name)
 
     def resume_ckpt(self, restore_hint):
