@@ -1,0 +1,102 @@
+{
+  "default": {
+    "acc_nm": 0.8676999999999999,
+    "acc_bg": 0.7828,
+    "acc_cl": 0.5326,
+    "acc_all": 0.7837000000000001,
+    "scratch_acc_all": 0.68996,
+    "delta_acc_all_pt": 9.374,
+    "iter": 30000,
+    "seed": 0
+  },
+  "nm2": {
+    "acc_nm": 0.9869,
+    "acc_bg": 0.8806999999999999,
+    "acc_cl": 0.3602,
+    "acc_all": 0.8403200000000001,
+    "scratch_acc_all": 0.81174,
+    "delta_acc_all_pt": 2.858,
+    "iter": 30000,
+    "seed": 0
+  },
+  "bg2": {
+    "acc_nm": 0.98,
+    "acc_bg": 0.9125,
+    "acc_cl": 0.4165,
+    "acc_all": 0.8538,
+    "scratch_acc_all": 0.8097600000000001,
+    "delta_acc_all_pt": 4.404,
+    "iter": 30000,
+    "seed": 0
+  },
+  "cl2": {
+    "acc_nm": 0.9506999999999999,
+    "acc_bg": 0.8523000000000001,
+    "acc_cl": 0.4525,
+    "acc_all": 0.8313799999999999,
+    "scratch_acc_all": 0.7387799999999999,
+    "delta_acc_all_pt": 9.26,
+    "iter": 30000,
+    "seed": 0
+  },
+  "nm1-bg1": {
+    "acc_nm": 0.9856999999999999,
+    "acc_bg": 0.9466,
+    "acc_cl": 0.4891,
+    "acc_all": 0.8785599999999999,
+    "scratch_acc_all": 0.8535400000000001,
+    "delta_acc_all_pt": 2.502,
+    "iter": 30000,
+    "seed": 0
+  },
+  "nm1-cl1": {
+    "acc_nm": 0.9690000000000001,
+    "acc_bg": 0.9007,
+    "acc_cl": 0.7757999999999999,
+    "acc_all": 0.9167000000000001,
+    "scratch_acc_all": 0.8871,
+    "delta_acc_all_pt": 2.96,
+    "iter": 30000,
+    "seed": 0
+  },
+  "000-180": {
+    "acc_nm": 0.6339,
+    "acc_bg": 0.5728,
+    "acc_cl": 0.3809,
+    "acc_all": 0.57108,
+    "scratch_acc_all": 0.40015999999999996,
+    "delta_acc_all_pt": 17.092,
+    "iter": 30000,
+    "seed": 0
+  },
+  "090-180": {
+    "acc_nm": 0.8428,
+    "acc_bg": 0.7735,
+    "acc_cl": 0.5711999999999999,
+    "acc_all": 0.7746199999999999,
+    "scratch_acc_all": 0.5916,
+    "delta_acc_all_pt": 18.302,
+    "iter": 30000,
+    "seed": 0
+  },
+  "nm1-bg1-cl1": {
+    "acc_nm": 0.9517,
+    "acc_bg": 0.8965000000000001,
+    "acc_cl": 0.7353000000000001,
+    "acc_all": 0.89738,
+    "scratch_acc_all": 0.85092,
+    "delta_acc_all_pt": 4.646,
+    "iter": 30000,
+    "seed": 0
+  },
+  "nm2-bg2-cl2": {
+    "acc_nm": 0.9005,
+    "acc_bg": 0.8181,
+    "acc_cl": 0.6338,
+    "acc_all": 0.83068,
+    "scratch_acc_all": 0.7369,
+    "delta_acc_all_pt": 9.378,
+    "iter": 30000,
+    "seed": 0
+  }
+}
