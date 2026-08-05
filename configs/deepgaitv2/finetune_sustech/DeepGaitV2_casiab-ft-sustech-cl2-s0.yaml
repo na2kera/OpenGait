@@ -1,0 +1,92 @@
+data_cfg:
+  dataset_name: CASIA-B
+  dataset_root: ./CASIA-B/cl1-2
+  dataset_partition: ./datasets/CASIA-B/CASIA-B.json
+  num_workers: 1
+  remove_no_gallery: false
+  test_dataset_name: CASIA-B
+evaluator_cfg:
+  enable_float16: true
+  restore_ckpt_strict: true
+  restore_hint: 30000
+  save_name: DeepGaitV2-ft-sustech-cl2-s0
+  sampler:
+    batch_shuffle: false
+    batch_size: 2
+    sample_type: all_ordered
+    frames_all_limit: 720
+  metric: euc
+  transform:
+  - type: BaseSilCuttingTransform
+loss_cfg:
+- loss_term_weight: 1.0
+  margin: 0.2
+  type: TripletLoss
+  log_prefix: triplet
+- loss_term_weight: 1.0
+  scale: 16
+  type: CrossEntropyLoss
+  log_prefix: softmax
+  log_accuracy: true
+model_cfg:
+  model: DeepGaitV2
+  Backbone:
+    mode: p3d
+    in_channels: 1
+    layers:
+    - 1
+    - 1
+    - 1
+    - 1
+    channels:
+    - 64
+    - 128
+    - 256
+    - 512
+  SeparateBNNecks:
+    class_num: 75
+optimizer_cfg:
+  lr: 0.01
+  momentum: 0.9
+  solver: SGD
+  weight_decay: 0.0005
+scheduler_cfg:
+  gamma: 0.1
+  milestones:
+  - 10000
+  - 20000
+  - 25000
+  scheduler: MultiStepLR
+trainer_cfg:
+  enable_float16: true
+  fix_BN: false
+  log_iter: 100
+  with_test: false
+  restore_ckpt_strict: false
+  restore_hint: ./output/SUSTech1K/DeepGaitV2/DeepGaitV2/checkpoints/DeepGaitV2_30_DA-50000_no_fc_bin.pt
+  save_iter: 5000
+  save_name: DeepGaitV2-ft-sustech-cl2-s0
+  sync_BN: true
+  total_iter: 30000
+  sampler:
+    batch_shuffle: true
+    batch_size:
+    - 8
+    - 16
+    frames_num_fixed: 30
+    frames_skip_num: 4
+    sample_type: fixed_ordered
+    type: TripletSampler
+  transform:
+  - type: Compose
+    trf_cfg:
+    - type: RandomPerspective
+      prob: 0.0
+    - type: BaseSilCuttingTransform
+    - type: RandomHorizontalFlip
+      prob: 0.0
+    - type: RandomRotate
+      prob: 0.0
+  optimizer_reset: true
+  scheduler_reset: true
+base_seed: 0

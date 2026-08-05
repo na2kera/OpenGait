@@ -1,3 +1,5 @@
+base_seed: 0
+
 data_cfg:
   dataset_name: CASIA-B
   dataset_root: your_path

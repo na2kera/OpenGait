@@ -1,0 +1,113 @@
+{
+  "_note": "予稿の表1・図1の生成元。LODO=13-fold hold-one-out, Ridge(alpha=1.0)+StandardScaler。",
+  "table1": [
+    {
+      "target": "scratch",
+      "spearman": 0.8076923076923077,
+      "mae_pt": 6.4118114127516,
+      "p_perm": 0.000999000999000999,
+      "coef_fidtt_pt_per_sd": -9.74229478649855,
+      "range_pt": 48.693999999999996
+    },
+    {
+      "target": "ft",
+      "spearman": 0.7417582417582418,
+      "mae_pt": 4.3752442222611325,
+      "p_perm": 0.003996003996003996,
+      "coef_fidtt_pt_per_sd": -5.168715277015573,
+      "range_pt": 34.562
+    },
+    {
+      "target": "delta",
+      "spearman": 0.8571428571428571,
+      "mae_pt": 2.258257677578473,
+      "p_perm": 0.000999000999000999,
+      "coef_fidtt_pt_per_sd": 4.573579509482976,
+      "range_pt": 17.075999999999993
+    }
+  ],
+  "identity_check": {
+    "max_abs_diff_delta_vs_ft_minus_scratch": 2.4868995751603507e-14,
+    "corr_of_errors_scratch_ft": 0.9648634694239259
+  },
+  "per_subset": {
+    "default": {
+      "scratch_true": 68.996,
+      "scratch_pred": 73.28109479972343,
+      "ft_true": 78.37,
+      "ft_pred": 80.87850819082618
+    },
+    "nm2": {
+      "scratch_true": 81.174,
+      "scratch_pred": 82.95868121621392,
+      "ft_true": 84.03200000000001,
+      "ft_pred": 86.87941975053981
+    },
+    "bg2": {
+      "scratch_true": 80.97600000000001,
+      "scratch_pred": 79.33575456389043,
+      "ft_true": 85.38,
+      "ft_pred": 85.04951496228409
+    },
+    "cl2": {
+      "scratch_true": 73.87799999999999,
+      "scratch_pred": 68.09261927872028,
+      "ft_true": 83.13799999999999,
+      "ft_pred": 76.97436964697415
+    },
+    "nm1-bg1": {
+      "scratch_true": 85.35400000000001,
+      "scratch_pred": 88.41824609715444,
+      "ft_true": 87.856,
+      "ft_pred": 90.50605086118776
+    },
+    "nm1-cl1": {
+      "scratch_true": 88.71,
+      "scratch_pred": 81.32278569311359,
+      "ft_true": 91.67,
+      "ft_pred": 87.4839304543725
+    },
+    "bg1-cl1": {
+      "scratch_true": 87.246,
+      "scratch_pred": 79.30014906317744,
+      "ft_true": 90.61,
+      "ft_pred": 86.42750870660137
+    },
+    "000-180": {
+      "scratch_true": 40.016,
+      "scratch_pred": 64.62586554788464,
+      "ft_true": 57.108000000000004,
+      "ft_pred": 79.38652657222215
+    },
+    "000-090": {
+      "scratch_true": 59.70600000000002,
+      "scratch_pred": 63.240405183119876,
+      "ft_true": 79.28399999999999,
+      "ft_pred": 79.90735198846906
+    },
+    "090-180": {
+      "scratch_true": 59.160000000000004,
+      "scratch_pred": 71.15435072790122,
+      "ft_true": 77.46199999999999,
+      "ft_pred": 84.11916513435412
+    },
+    "nm1-bg1-cl1": {
+      "scratch_true": 85.092,
+      "scratch_pred": 83.29449551058033,
+      "ft_true": 89.738,
+      "ft_pred": 88.68091194509967
+    },
+    "nm2-bg2-cl2": {
+      "scratch_true": 73.69,
+      "scratch_pred": 77.56546648205499,
+      "ft_true": 83.068,
+      "ft_pred": 84.37603412909829
+    },
+    "nm6": {
+      "scratch_true": 73.07,
+      "scratch_pred": 67.42075757879958,
+      "ft_true": 79.256,
+      "ft_pred": 77.17064602197085
+    }
+  }
+}

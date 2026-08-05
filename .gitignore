@@ -169,6 +169,15 @@ pretreatment.log
 
 # Private research notes
 /daily_reports/
+/dgv2_analysis/yokou/
+
+# Generated figures (scripts + JSON から再生成可能)
+/dgv2_analysis/*.png
+/dgv2_analysis/*.svg
+/dgv2_analysis/*.pdf
+
+# Claude Code managed worktrees
+.claude/worktrees/
 
 # Local reference documents / obsolete scratch scripts
 /LODO_CASIA.py
