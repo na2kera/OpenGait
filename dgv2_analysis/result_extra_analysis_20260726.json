@@ -1,0 +1,197 @@
+{
+  "per_condition_ridge": {
+    "ft_nm": {
+      "mae": 0.04414475788312281,
+      "spearman": 0.7527472527472527,
+      "coef": {
+        "log_people": 0.023088110465871312,
+        "DeepGaitV2_MSD": -0.03818361996827147,
+        "DeepGaitV2_1NN": 0.020239914494148328,
+        "DeepGaitV2_kNN": 0.034266368869369394,
+        "DeepGaitV2_FID": 0.02602978373821235,
+        "FID_train_test_DeepGaitV2": -0.04983451884917627
+      }
+    },
+    "delta_nm_pt": {
+      "mae": 3.063451441278891,
+      "spearman": 0.8241758241758241,
+      "coef": {
+        "log_people": -1.7075514465597184,
+        "DeepGaitV2_MSD": 5.185785132029323,
+        "DeepGaitV2_1NN": -1.2680419868762802,
+        "DeepGaitV2_kNN": -2.76783731843243,
+        "DeepGaitV2_FID": 0.8810943191525058,
+        "FID_train_test_DeepGaitV2": 4.701628421371625
+      }
+    },
+    "ft_bg": {
+      "mae": 0.03669802204436853,
+      "spearman": 0.8186813186813187,
+      "coef": {
+        "log_people": 0.03851334481174036,
+        "DeepGaitV2_MSD": -0.028844265637274318,
+        "DeepGaitV2_1NN": 0.018558534300876596,
+        "DeepGaitV2_kNN": 0.038981346388940234,
+        "DeepGaitV2_FID": 0.015154365791653988,
+        "FID_train_test_DeepGaitV2": -0.049812823323807695
+      }
+    },
+    "delta_bg_pt": {
+      "mae": 2.3905407364395055,
+      "spearman": 0.9505494505494506,
+      "coef": {
+        "log_people": -2.880712253619328,
+        "DeepGaitV2_MSD": 4.143940200874277,
+        "DeepGaitV2_1NN": -0.877861525032351,
+        "DeepGaitV2_kNN": -2.5790274756953737,
+        "DeepGaitV2_FID": 1.703463542599669,
+        "FID_train_test_DeepGaitV2": 5.063097788793641
+      }
+    },
+    "ft_cl": {
+      "mae": 0.06256968198337425,
+      "spearman": 0.8956043956043955,
+      "coef": {
+        "log_people": 0.04300534390431211,
+        "DeepGaitV2_MSD": 0.11011704998502093,
+        "DeepGaitV2_1NN": -0.041396419688379926,
+        "DeepGaitV2_kNN": 0.004510813196462914,
+        "DeepGaitV2_FID": -0.08812977866741933,
+        "FID_train_test_DeepGaitV2": -0.05911938397944191
+      }
+    },
+    "delta_cl_pt": {
+      "mae": 3.6349712749526697,
+      "spearman": 0.7362637362637362,
+      "coef": {
+        "log_people": -2.193769459824449,
+        "DeepGaitV2_MSD": 2.721778213007244,
+        "DeepGaitV2_1NN": -0.1805401445262341,
+        "DeepGaitV2_kNN": -1.5168045327606436,
+        "DeepGaitV2_FID": 1.7577065563542986,
+        "FID_train_test_DeepGaitV2": 3.6999144945063875
+      }
+    }
+  },
+  "permutation_ridge": {
+    "delta_all_pt": {
+      "observed_spearman": 0.8571428571428571,
+      "p_perm": 0.000999000999000999
+    },
+    "ft_all": {
+      "observed_spearman": 0.7417582417582418,
+      "p_perm": 0.003996003996003996
+    }
+  },
+  "permutation_logreg": {
+    "delta_tau5pt": {
+      "observed_accuracy": 0.8717948717948718,
+      "p_perm": 0.004975124378109453
+    },
+    "ft_tau0.05": {
+      "observed_accuracy": 0.7307692307692307,
+      "p_perm": 0.01990049751243781
+    }
+  },
+  "spearman_matrix": {
+    "log_people": {
+      "log_people": 1.0,
+      "DeepGaitV2_MSD": -0.14458213280421392,
+      "DeepGaitV2_1NN": -0.8170571691028833,
+      "DeepGaitV2_kNN": -0.8069700435584033,
+      "DeepGaitV2_FID": 0.5884156567613358,
+      "FID_train_test_DeepGaitV2": -0.016811875907466734,
+      "scratch_all": 0.19165538534512078,
+      "ft_all": 0.25554051379349435,
+      "delta_all_pt": -0.20510488607109417
+    },
+    "DeepGaitV2_MSD": {
+      "log_people": -0.14458213280421392,
+      "DeepGaitV2_MSD": 1.0,
+      "DeepGaitV2_1NN": 0.2967032967032967,
+      "DeepGaitV2_kNN": 0.3516483516483517,
+      "DeepGaitV2_FID": 0.23076923076923078,
+      "FID_train_test_DeepGaitV2": -0.42857142857142855,
+      "scratch_all": 0.0,
+      "ft_all": 0.11538461538461539,
+      "delta_all_pt": 0.33516483516483514
+    },
+    "DeepGaitV2_1NN": {
+      "log_people": -0.8170571691028833,
+      "DeepGaitV2_MSD": 0.2967032967032967,
+      "DeepGaitV2_1NN": 1.0,
+      "DeepGaitV2_kNN": 0.967032967032967,
+      "DeepGaitV2_FID": -0.35714285714285715,
+      "FID_train_test_DeepGaitV2": -0.29120879120879123,
+      "scratch_all": 0.12637362637362637,
+      "ft_all": 0.06593406593406594,
+      "delta_all_pt": -0.11538461538461539
+    },
+    "DeepGaitV2_kNN": {
+      "log_people": -0.8069700435584033,
+      "DeepGaitV2_MSD": 0.3516483516483517,
+      "DeepGaitV2_1NN": 0.967032967032967,
+      "DeepGaitV2_kNN": 1.0,
+      "DeepGaitV2_FID": -0.45054945054945056,
+      "FID_train_test_DeepGaitV2": -0.42857142857142855,
+      "scratch_all": 0.25824175824175827,
+      "ft_all": 0.1978021978021978,
+      "delta_all_pt": -0.1813186813186813
+    },
+    "DeepGaitV2_FID": {
+      "log_people": 0.5884156567613358,
+      "DeepGaitV2_MSD": 0.23076923076923078,
+      "DeepGaitV2_1NN": -0.35714285714285715,
+      "DeepGaitV2_kNN": -0.45054945054945056,
+      "DeepGaitV2_FID": 1.0,
+      "FID_train_test_DeepGaitV2": -0.038461538461538464,
+      "scratch_all": 0.04395604395604396,
+      "ft_all": 0.10989010989010989,
+      "delta_all_pt": -0.07142857142857142
+    },
+    "FID_train_test_DeepGaitV2": {
+      "log_people": -0.016811875907466734,
+      "DeepGaitV2_MSD": -0.42857142857142855,
+      "DeepGaitV2_1NN": -0.29120879120879123,
+      "DeepGaitV2_kNN": -0.42857142857142855,
+      "DeepGaitV2_FID": -0.038461538461538464,
+      "FID_train_test_DeepGaitV2": 1.0,
+      "scratch_all": -0.7802197802197802,
+      "ft_all": -0.7582417582417582,
+      "delta_all_pt": 0.6263736263736264
+    },
+    "scratch_all": {
+      "log_people": 0.19165538534512078,
+      "DeepGaitV2_MSD": 0.0,
+      "DeepGaitV2_1NN": 0.12637362637362637,
+      "DeepGaitV2_kNN": 0.25824175824175827,
+      "DeepGaitV2_FID": 0.04395604395604396,
+      "FID_train_test_DeepGaitV2": -0.7802197802197802,
+      "scratch_all": 1.0,
+      "ft_all": 0.9725274725274725,
+      "delta_all_pt": -0.8791208791208791
+    },
+    "ft_all": {
+      "log_people": 0.25554051379349435,
+      "DeepGaitV2_MSD": 0.11538461538461539,
+      "DeepGaitV2_1NN": 0.06593406593406594,
+      "DeepGaitV2_kNN": 0.1978021978021978,
+      "DeepGaitV2_FID": 0.10989010989010989,
+      "FID_train_test_DeepGaitV2": -0.7582417582417582,
+      "scratch_all": 0.9725274725274725,
+      "ft_all": 1.0,
+      "delta_all_pt": -0.7802197802197802
+    },
+    "delta_all_pt": {
+      "log_people": -0.20510488607109417,
+      "DeepGaitV2_MSD": 0.33516483516483514,
+      "DeepGaitV2_1NN": -0.11538461538461539,
+      "DeepGaitV2_kNN": -0.1813186813186813,
+      "DeepGaitV2_FID": -0.07142857142857142,
+      "FID_train_test_DeepGaitV2": 0.6263736263736264,
+      "scratch_all": -0.8791208791208791,
+      "ft_all": -0.7802197802197802,
+      "delta_all_pt": 1.0
+    }
+  }
+}
