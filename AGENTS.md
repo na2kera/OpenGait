@@ -1,6 +1,27 @@
 # プルリクエスト
 
-このリポジトリで PR を作成するときは、ユーザーから別の指示がない限り、ベースリポジトリを `https://github.com/na2kera/OpenGait`、ベースブランチを `master` にする。`gh` では `--repo na2kera/OpenGait --base master --head <head-branch>` を明示し、作成後に PR URL とベースブランチを確認してからレビューを依頼する。
+このリポジトリでは `origin` は `git@github.com:na2kera/OpenGait.git`、`upstream` は `https://github.com/ShiqiYu/OpenGait.git` である。pushやPRの前に実際のremote URLを再確認する。
+
+PRを作成するときは、ユーザーから別の指示がない限り、ベースリポジトリを `https://github.com/na2kera/OpenGait`、ベースブランチを `master` にする。`gh` では `--repo na2kera/OpenGait --base master --head <head-branch>` を明示し、タイトルと本文は日本語で書く。作成後にPR URL、base、head、公開先を確認してからレビューを依頼する。
+
+本家の `upstream` へのpush、force push、PRのcloseやmergeは、ユーザーの明示的な依頼なしに行わない。
+
+# 研究状況の確認
+
+- 研究進捗を尋ねられたら、最新の `daily_reports/` だけでなく、関連コード、config、結果ファイル、checkpoint、Git状態、必要なら実行中プロセスも突き合わせる。
+- 実験値、モデル、データ分割、checkpointの出所を混同しない。観測した事実と解釈を区別し、日付と根拠ファイルを示せる状態で説明する。
+- 中村さん側の `/home/ryu` とkera側の `/home/kera` のコード、結果、モデルを必ず区別する。
+
+# 日報
+
+- 「daily-report」「日報」は、特に指定がなければ `/home/kera/OpenGait/daily_reports/` を指す。
+- 日報とNotion由来の研究メモは非公開情報として扱い、明示依頼なしにGitへ追加、commit、pushしない。
+
+# 学習とテスト
+
+- 学習・テストの開始前に、対象config、データ分割、GPU、Docker/tmux、出力先、既存checkpointとの衝突を検算する。
+- 「状態確認」だけでは学習を開始しない。「学習を回して」などの明示依頼があれば、事前検算後に起動し、初期ログとGPU使用を確認する。
+- 既存checkpoint、実験結果、データセットを黙って上書き・削除・移動しない。
 
 # CASIA-B partition の罠（2系統のプロトコル、混ぜ厳禁）
 
