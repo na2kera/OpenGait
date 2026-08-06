@@ -1,0 +1,32 @@
+# Allow low-risk, read-only status commands only inside this project.
+
+prefix_rule(
+    pattern = ["docker", "ps"],
+    decision = "allow",
+    justification = "Listing Docker containers is a read-only status check.",
+    match = [
+        "docker ps",
+        "docker ps -a",
+        "docker ps --format {{.Names}}",
+    ],
+    not_match = [
+        "docker top opengait_container",
+        "docker exec opengait_container ps -ef",
+        "docker run opengait",
+    ],
+)
+
+prefix_rule(
+    pattern = ["tmux", ["ls", "list-sessions"]],
+    decision = "allow",
+    justification = "Listing tmux sessions is a read-only status check.",
+    match = [
+        "tmux ls",
+        "tmux list-sessions",
+    ],
+    not_match = [
+        "tmux capture-pane -p",
+        "tmux kill-session -t train1",
+        "tmux send-keys -t train1 C-c",
+    ],
+)
