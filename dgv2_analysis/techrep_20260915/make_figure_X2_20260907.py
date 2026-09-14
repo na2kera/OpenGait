@@ -26,6 +26,10 @@ import matplotlib.pyplot as plt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ARM = os.environ.get("ARM", "X2")
+GEN_SET = os.environ.get("GEN_SET", "S_inc6")          # 汎用側の系列: S_inc6（既定、6 変数）/ S_incdino11（11 変数、2026-09-14 追加）
+assert GEN_SET in ("S_inc6", "S_incdino11")
+GEN_LABEL = {"S_inc6": "Inception", "S_incdino11": "Inception+DINOv2"}[GEN_SET]
+GEN_SUFFIX = "" if GEN_SET == "S_inc6" else "_incdino11"
 X2_RESULT = ("/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/result_incdino_ft_20260806_X2.json" if ARM == "X2"
              else os.path.join(HERE, "result_incdino_ft_X3.json"))
 SUBSETS = ["default", "nm2", "bg2", "cl2", "nm1-bg1", "nm1-cl1", "bg1-cl1", "000-180", "000-090",
@@ -77,8 +81,8 @@ def main():
     x2 = json.load(open(X2_RESULT, encoding="utf-8"))
     assert x2["arm"] == ARM
     data = {
-        "inc6_ft": series(x2["grid"]["S_inc6"]["ft_all"]["per_subset"]),
-        "inc6_scratch": series(x2["grid"]["S_inc6"]["scratch_all"]["per_subset"]),
+        "inc6_ft": series(x2["grid"][GEN_SET]["ft_all"]["per_subset"]),
+        "inc6_scratch": series(x2["grid"][GEN_SET]["scratch_all"]["per_subset"]),
         "sus6_ft": series(x2["A_sustech6_ft_reproduced"]["per_subset"]),
     }
     # DeepGaitV2 × scratch の per-subset は X2 JSON に無い（フェーズ1 既報）。presentation_tables_20260726.json から転記
@@ -95,11 +99,11 @@ def main():
         rho = spearmanr(p, t).correlation
         mae = float(np.abs(p - t).mean())
         summary[k] = {"rho": float(rho), "mae_pt": mae}
-    assert abs(summary["inc6_ft"]["rho"] - x2["grid"]["S_inc6"]["ft_all"]["spearman"]) < 1e-9
-    assert abs(summary["inc6_ft"]["mae_pt"] - x2["grid"]["S_inc6"]["ft_all"]["mae"] * 100) < 1e-6
+    assert abs(summary["inc6_ft"]["rho"] - x2["grid"][GEN_SET]["ft_all"]["spearman"]) < 1e-9
+    assert abs(summary["inc6_ft"]["mae_pt"] - x2["grid"][GEN_SET]["ft_all"]["mae"] * 100) < 1e-6
     assert abs(summary["sus6_ft"]["rho"] - 0.7417582417582418) < 1e-9
     assert abs(summary["sus6_scratch"]["rho"] - 0.8076923076923077) < 1e-9
-    assert abs(summary["inc6_scratch"]["rho"] - x2["grid"]["S_inc6"]["scratch_all"]["spearman"]) < 1e-9
+    assert abs(summary["inc6_scratch"]["rho"] - x2["grid"][GEN_SET]["scratch_all"]["spearman"]) < 1e-9
     for k, v in summary.items():
         print(f"{k:14s} rho={v['rho']:.3f} MAE={v['mae_pt']:.2f}pt")
 
@@ -114,7 +118,7 @@ def main():
     style(ax, lo, hi)
     t, p = data["inc6_ft"]
     ax.scatter(t, p, s=34, marker="o", facecolor=C_GENERIC, edgecolor="white", linewidth=0.8, zorder=3,
-               label=f"Inception ($\\rho$={summary['inc6_ft']['rho']:.3f})")
+               label=f"{GEN_LABEL} ($\\rho$={summary['inc6_ft']['rho']:.3f})")
     ax.annotate("000-180", (t[i8], p[i8]), textcoords="offset points", xytext=(6, -3), fontsize=7, color=C_INK2)
     t, p = data["sus6_ft"]
     ax.scatter(t, p, s=38, marker="^", facecolor=C_GAIT, edgecolor="white", linewidth=0.8, zorder=3,
@@ -122,7 +126,7 @@ def main():
     ax.annotate("000-180", (t[i8], p[i8]), textcoords="offset points", xytext=(6, -3), fontsize=7, color=C_INK2)
     legend(ax)
     fig.tight_layout(pad=0.3)
-    base_a = os.path.join(HERE, "fig_pred_vs_true_X2_20260907" if ARM == "X2" else "fig_pred_vs_true_X3_20260914")
+    base_a = os.path.join(HERE, "fig_pred_vs_true_X2_20260907" if ARM == "X2" else "fig_pred_vs_true_X3" + GEN_SUFFIX + "_20260914")
     for ext in ("pdf", "png"):
         fig.savefig(f"{base_a}.{ext}", dpi=300)
     plt.close(fig)
@@ -133,7 +137,7 @@ def main():
         style(ax, lo, hi)
         t, p = data[f"inc6_{tgt}"]
         ax.scatter(t, p, s=30, marker="o", facecolor=C_GENERIC, edgecolor="white", linewidth=0.8, zorder=3,
-                   label=f"Inception ($\\rho$={summary[f'inc6_{tgt}']['rho']:.3f})")
+                   label=f"{GEN_LABEL} ($\\rho$={summary[f'inc6_{tgt}']['rho']:.3f})")
         ax.annotate("000-180", (t[i8], p[i8]), textcoords="offset points", xytext=(6, -3), fontsize=7, color=C_INK2)
         t, p = data[f"sus6_{tgt}"]
         ax.scatter(t, p, s=34, marker="^", facecolor=C_GAIT, edgecolor="white", linewidth=0.8, zorder=3,
@@ -141,21 +145,24 @@ def main():
         ax.annotate("000-180", (t[i8], p[i8]), textcoords="offset points", xytext=(6, -3), fontsize=7, color=C_INK2)
         ax.set_title(title, fontsize=8, color=C_INK, loc="left")
         legend(ax)
-    # scratch の Inception 予測は 000-180 で −4.6% と負になる（外挿破綻）。軸外に出るので注記
-    lo_s = min(float(data["inc6_scratch"][1].min()), lo)
-    if lo_s < lo:
-        axes[0].set_ylim(lo_s - 5, hi)
-        axes[0].set_xlim(lo, hi)
-        axes[0].plot([lo, hi], [lo, hi], ls="--", lw=1.0, color=C_GRID, zorder=1)
+    # 000-180 の予測が軸の下限（lo）を下回る場合は、そのパネルだけ y 軸を下に広げる（外挿破綻を見せる）。
+    # scratch の汎用側は負になり、11 変数では ft も 30% を下回る（2026-09-14 に両パネル対応に変更）
+    for ax, tgt in zip(axes, ("scratch", "ft")):
+        lo_t = min(float(data[f"inc6_{tgt}"][1].min()), float(data[f"sus6_{tgt}"][1].min()), lo)
+        if lo_t < lo:
+            ax.set_ylim(lo_t - 5, hi)
+            ax.set_xlim(lo, hi)
+            ax.plot([lo, hi], [lo, hi], ls="--", lw=1.0, color=C_GRID, zorder=1)
     fig.tight_layout(pad=0.3, w_pad=1.0)
-    base_b = os.path.join(HERE, "fig_pred_vs_true_X2_2panel_20260907" if ARM == "X2" else "fig_pred_vs_true_X3_2panel_20260914")
+    base_b = os.path.join(HERE, "fig_pred_vs_true_X2_2panel_20260907" if ARM == "X2" else "fig_pred_vs_true_X3_2panel" + GEN_SUFFIX + "_20260914")
     for ext in ("pdf", "png"):
         fig.savefig(f"{base_b}.{ext}", dpi=300)
     plt.close(fig)
 
+    out["general_set"] = GEN_SET
     out["mediabox_bp"] = {os.path.basename(base_a) + ".pdf": mediabox(base_a + ".pdf"),
                           os.path.basename(base_b) + ".pdf": mediabox(base_b + ".pdf")}
-    with open(os.path.join(HERE, "fig_X2_20260907.json" if ARM == "X2" else "fig_X3_20260914.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(HERE, "fig_X2_20260907.json" if ARM == "X2" else "fig_X3" + GEN_SUFFIX + "_20260914.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
     print("MediaBox (bp):", out["mediabox_bp"])
     print("wrote", os.path.basename(base_a), os.path.basename(base_b), "fig_X2_20260907.json")
