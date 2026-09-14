@@ -31,27 +31,29 @@
 
 \begin{document}
 \begin{jabstract}
-深層特徴空間のデータ特性指標から学習データの有効性を学習前に推定する枠組みを，事前学習済みモデルを再学習（ファインチューニング）した後の精度の予測へ拡張する．特徴抽出器として汎用画像モデルと歩容認証モデルのそれぞれを用い，ゼロからの学習と再学習の両方に対する予測性能を比較する．CASIA-B を分割した特性の異なる複数の学習サブセットを用いた実験結果を報告する．
+深層学習モデルの精度は学習データに依存するが，候補データの相対的な有効性を学習前に比較することは容易でない．深層特徴空間のデータ特性から有効性を見積もる枠組みは，汎用画像特徴とスクラッチ学習を対象に提案されている．本稿は，この枠組みを歩容認証における歩容特化特徴とファインチューニング後精度へ拡張する．CASIA-B の 13 サブセットについて，他の 12 サブセットの実測精度を用いる LODO により，汎用画像特徴と歩容特化特徴の各特徴空間でスクラッチ学習後とファインチューニング後の認証精度の順位予測を評価し，4 通りの組合せでの順位相関，特徴空間による条件別の順位相関の傾向，および数値予測が外れる事例を報告する．
 \end{jabstract}
 \begin{jkeyword}
-深層学習，学習データ，データ特性，歩容認証，ファインチューニング，認証精度
+学習データ有効性評価，データ特性，深層特徴空間，歩容認証，ファインチューニング，順位予測
 \end{jkeyword}
 \begin{eabstract}
-We extend a framework that estimates the effectiveness of training data before training, from data characteristics measured in deep feature spaces, to the prediction of the accuracy obtained after fine-tuning a pre-trained model. Using a general-purpose image model and a gait recognition model as feature extractors, we compare the prediction performance for training from scratch and for fine-tuning. We report experimental results on multiple training subsets with different characteristics constructed from CASIA-B.
+Deep learning model performance depends on training data, but comparing candidate datasets before training is difficult. An existing framework estimates their relative effectiveness from characteristics measured in general-purpose image feature spaces for training from scratch. We extend it to gait-specific features and to accuracy after fine-tuning, and evaluate it on gait recognition. Using 13 CASIA-B subsets, we evaluate ranking predictions of recognition accuracy after training from scratch and after fine-tuning, in the feature spaces of a general-purpose image model and a gait recognition model, by leave-one-dataset-out (LODO) using the measured accuracies of the other 12 subsets. We report the rank correlations for the four combinations, how the per-condition rank correlations differ between the feature spaces, and a case in which the numerical prediction fails.
 \end{eabstract}
 \begin{ekeyword}
-Deep Learning, Training Data, Data Characteristics, Gait Recognition, Fine-tuning, Recognition Accuracy
+Evaluation of Training Data Effectiveness, Data Characteristics, Deep Feature Spaces, Gait Recognition, Fine-tuning, Ranking Prediction
 \end{ekeyword}
 \maketitle
 
 %% =====================================================================
 \section{まえがき}
-歩容認証は歩き方の特徴から個人を識別する技術であり，遠距離かつ非接触で本人の協力なしに識別できるため社会的な需要が高い．近年は深層学習により精度が向上したが，大規模な学習データを要する．歩容データの収集には被験者の撮影協力と同意が不可欠で，多様な服装・所持品・視野角を網羅するとコストが急増する．
+%% 9/14 指導教員の指摘で書き直し: 一般的な課題 → 先行研究 → 本稿は歩容認証を対象に検証、の流れ。Codex レビュー反映（学習前の無条件な言い方を避ける、段落分割）
+深層学習に基づく認識モデルの精度は，学習データに大きく依存する．しかし，どのようなデータを収集すれば精度が向上するかは，実際に学習して評価するまで分からない．深層モデルの学習には時間と計算資源を要するため，候補となるデータを網羅的に学習して比較することは現実的でない．このため，候補ごとのモデル学習を省き，学習データの相対的な有効性を見積もる手段が求められる．
 
-課題は，どのようなデータを集めれば精度が上がるのかが事前には分からない点である．学習して初めて価値が分かるが，深層モデルの学習には時間と計算資源を要し，網羅的に試すことは現実的でない．
-この課題に対し中村ら\cite{Nakamura_IEICE}は，学習データの特性を深層特徴空間上の統計量として定量化し，対象データで学習を行わずに認証精度を予測する枠組みを提案した．ただし中村らの枠組みには二つの制約がある．第一に，特徴抽出器が歩容に特化しない汎用の画像認識モデルに限られている．第二に，予測対象がゼロから学習する設定（以下スクラッチ学習）の精度に限られている．実務では大規模データで事前学習したモデルをファインチューニングする使い方が主流であり，この設定で学習前の予測が成立するかは未検証である．
+この課題に対し中村ら\cite{Nakamura_IEICE}は，学習データの特性を深層特徴空間上の統計量として定量化し，他の学習データで得た実測精度から構築した回帰モデルにより，評価対象のデータで認識モデルを学習せずに学習後の精度を推定する枠組みを提案した．同研究は汎用画像モデルの特徴空間を用い，ゼロから学習する設定（以下スクラッチ学習）の精度を対象としている．一方，対象タスクに特化した特徴空間を用いた場合や，実務で主流である事前学習済みモデルをファインチューニングした後の精度についても同じ関係が成り立つかは明らかでない．
 
-そこで本稿では，特徴空間と予測対象の両方を拡張する．特徴空間には，汎用画像モデル（InceptionV3，DINOv2）に加えて歩容認証モデル DeepGaitV2\cite{Fan_DeepGaitV2}を用いる．予測対象には，スクラッチ学習後の精度に加えて，別データセット SUSTech1K\cite{Shen_LidarGait}で事前学習したモデルをファインチューニングした後の精度を用いる．汎用画像特徴$\times$スクラッチ学習の組は中村らの設定に対応し，残る 3 通りが本稿で新規に検証する組合せである．ただしスクラッチ学習精度とファインチューニング後精度の順位は高く相関するため（5.\,1 節），本稿の関心は予測の成否に加えて，どの特徴空間がどの条件で有効かにある．CASIA-B\cite{Yu_CASIAB}の 13 サブセットを用い，4 通りでの順位相関，特徴空間による得意条件の違い，数値予測の破綻を報告する．
+本稿では，この学習データ有効性評価の枠組みを特徴空間と予測対象の両方向に拡張し，歩容認証を対象として検証する．歩容データの収集には被験者の撮影協力と同意が必要であり，服装・所持品・視野角などの条件を広く網羅すると収集コストが増大するため，学習データを学習前に選定する意義が大きい．また，特性の異なる学習データを比較できる CASIA-B\cite{Yu_CASIAB}の 13 サブセットと，別データセット SUSTech1K\cite{Shen_LidarGait}で事前学習された歩容認証モデル DeepGaitV2\cite{Fan_DeepGaitV2}を利用でき，特徴空間と学習形態の両面を統制して検証できる．
+
+特徴空間には，汎用画像モデル（InceptionV3，DINOv2）に加えて DeepGaitV2 を用いる．予測対象には，スクラッチ学習後の精度に加えて，SUSTech1K で事前学習したモデルをファインチューニングした後の精度を用いる．汎用画像特徴$\times$スクラッチ学習の組は中村らの設定に対応し，残る 3 通りが本稿で新規に検証する組合せである．ただしスクラッチ学習精度とファインチューニング後精度の順位は高く相関するため（5.\,1 節），本稿では順位予測の成否に加えて，条件別の順位相関が特徴空間によってどのように異なるかを比較する．4 通りでの順位相関，特徴空間による条件別の順位相関の傾向，数値予測の破綻を報告する．
 
 %% =====================================================================
 \section{関連研究}
