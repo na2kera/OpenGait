@@ -1,0 +1,54 @@
+{
+ "note": "X3。X2 本体と同一の LODO Ridge、N_PERM=1000、片側 (perm ρ >= 観測 ρ)。seed 1010..1013",
+ "n_perm": 1000,
+ "arm": "X3",
+ "target": "scratch_all",
+ "results": {
+  "S_incdino11": {
+   "observed_spearman": 0.8571428571428571,
+   "p_perm": 0.000999000999000999,
+   "seed": 1010,
+   "count_ge": 0
+  },
+  "S_inc6": {
+   "observed_spearman": 0.8791208791208791,
+   "p_perm": 0.000999000999000999,
+   "seed": 1011,
+   "count_ge": 0
+  },
+  "S_dino6": {
+   "observed_spearman": 0.8076923076923077,
+   "p_perm": 0.000999000999000999,
+   "seed": 1012,
+   "count_ge": 0
+  },
+  "S_sustech6": {
+   "observed_spearman": 0.8076923076923077,
+   "p_perm": 0.002997002997002997,
+   "seed": 1013,
+   "count_ge": 2
+  }
+ },
+ "inputs_md5": {
+  "sustech": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/metrics_dgv2_sustech.json",
+   "md5": "0b3842058b4c9deebb44b28ba3039806"
+  },
+  "ft": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/metrics_ft_sustech_full_20260726.json",
+   "md5": "c3197edab37b0b3005af531a19dbcf86"
+  },
+  "incdino": {
+   "path": "/app/OpenGait/dgv2_analysis/techrep_20260915/metrics_incdino_kera_X3.json",
+   "md5": "629e450878f8c2da819c7bfcfb1cd491"
+  },
+  "analysis_code": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/analysis_incdino_ft_20260806.py",
+   "md5": "102bb8b0b305b0e73f3567d5835b1c7a"
+  },
+  "x2_result": {
+   "path": "/app/OpenGait/dgv2_analysis/techrep_20260915/result_incdino_ft_X3.json",
+   "md5": "896a0fc12e953cf5bea3040cd883c75a"
+  }
+ }
+}

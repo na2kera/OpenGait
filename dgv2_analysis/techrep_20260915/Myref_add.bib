@@ -1,5 +1,5 @@
 % yokou_20260727.tex 用の文献エントリ。既存の Myref.bib の末尾に貼り付けて使う。
-% 2026-07-27 更新: [1] は実際の書誌情報を反映、[2] は @misc 化（pp.●●--●● 対策）、
+% 2026-07-27 更新: [1] は実際の書誌情報を反映、[2] は misc 化（pp.●●--●● 対策）、
 %                  [3][4] は会議名を短縮（参考文献リストの行数を約3行削減）。
 
 @article{Nakamura_IEICE,
@@ -13,8 +13,8 @@
   note    = {BioX2025-105}
 }
 
-% arXiv プレプリントはページ番号を持たないため @article だと sieicej.bst が
-% pp.●●--●● を出力する。@misc + howpublished にすればページ欄自体が出ない。
+% arXiv プレプリントはページ番号を持たないため article だと sieicej.bst が
+% pp.●●--●● を出力する。misc + howpublished にすればページ欄自体が出ない。
 @misc{Fan_DeepGaitV2,
   author       = {C. Fan and S. Hou and Y. Huang and S. Yu},
   title        = {Exploring deep models for practical gait recognition},
@@ -76,7 +76,7 @@
   doi       = {10.2352/EI.2025.37.10.IPAS-237}
 }
 
-% TMLR はページ番号を持たないので @article だと sieicej.bst が pp.••--•• を出す → @misc + howpublished
+% TMLR はページ番号を持たないので article だと sieicej.bst が pp.••--•• を出す → misc + howpublished
 @misc{Oquab_DINOv2,
   author       = {M. Oquab and others},
   title        = {{DINOv2}: Learning robust visual features without supervision},
