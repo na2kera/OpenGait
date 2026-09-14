@@ -45,13 +45,13 @@
 %           Oquab=TMLR 2024（arXiv:2304.07193）/ Russakovsky=IJCV 2015 doi:10.1007/s11263-015-0816-y
 % 中村論文 [5] は著者の姓名が逆転している（"C. Doruk" → 正しくは D. Cetin）。ここでは正しい順で記載。
 
-@inproceedings{Heusel_FID,
-  author    = {M. Heusel and H. Ramsauer and T. Unterthiner and B. Nessler and S. Hochreiter},
-  title     = {{GANs} trained by a two time-scale update rule converge to a local {Nash} equilibrium},
-  booktitle = {Proc. NeurIPS},
-  volume    = {30},
-  pages     = {6626--6637},
-  year      = {2017}
+% 2026-09-14: NeurIPS 公式 BibTeX に pages が無く（pp.6626--6637 は二次情報のみ）、
+% inproceedings で pages を空にすると sieicej.bst が pp.••--•• を出す（中村論文 [1] がその状態）→ misc + howpublished でページ欄を出さない
+@misc{Heusel_FID,
+  author       = {M. Heusel and H. Ramsauer and T. Unterthiner and B. Nessler and S. Hochreiter},
+  title        = {{GANs} trained by a two time-scale update rule converge to a local {Nash} equilibrium},
+  howpublished = {Proc. NeurIPS, vol.30},
+  year         = {2017}
 }
 
 @inproceedings{Szegedy_InceptionV3,
@@ -96,15 +96,14 @@
 }
 
 %% ---- 2026-09-10 追加（レビュー指摘: データセット名・OpenGait の無引用）。書誌は記憶ベースなので投稿前に要確認 ----
-@article{Takemura_OUMVLP,
-  author  = {N. Takemura and Y. Makihara and D. Muramatsu and T. Echigo and Y. Yagi},
-  title   = {Multi-view large population gait dataset and its performance evaluation for cross-view gait recognition},
-  journal = {IPSJ Transactions on Computer Vision and Applications},
-  volume  = {10},
-  pages   = {1--14},
-  year    = {2018}
+%% Takemura_OUMVLP: 正式所在は vol.10, Article 4 (2018), doi:10.1186/s41074-018-0039-6（Crossref で確認、通巻ページ無し）。
+%% article + number={4} だと "no.4" と出るため misc + howpublished で "vol.10, Article 4" と表記（2026-09-14）
+@misc{Takemura_OUMVLP,
+  author       = {N. Takemura and Y. Makihara and D. Muramatsu and T. Echigo and Y. Yagi},
+  title        = {Multi-view large population gait dataset and its performance evaluation for cross-view gait recognition},
+  howpublished = {IPSJ Transactions on Computer Vision and Applications, vol.10, Article 4},
+  year         = {2018}
 }
-%% Takemura_OUMVLP: Springer の書誌では vol.10, Article 4 (2018), pp.1--14。number={4} は論文番号なので削除（9/10 レビュー）。要確認
 @inproceedings{Zhu_GREW,
   author    = {Z. Zhu and X. Guo and T. Yang and J. Huang and J. Deng and G. Huang and D. Du and J. Lu and J. Zhou},
   title     = {Gait recognition in the wild: A benchmark},
