@@ -1,0 +1,54 @@
+{
+ "inputs_md5": {
+  "incdino": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/metrics_incdino_kera_X2.json",
+   "md5": "d431fdbb1f65fd22ca301d97712e943c"
+  },
+  "sustech": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/metrics_dgv2_sustech.json",
+   "md5": "0b3842058b4c9deebb44b28ba3039806"
+  },
+  "ft": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/metrics_ft_sustech_full_20260726.json",
+   "md5": "c3197edab37b0b3005af531a19dbcf86"
+  },
+  "analysis_code": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/analysis_incdino_ft_20260806.py",
+   "md5": "102bb8b0b305b0e73f3567d5835b1c7a"
+  },
+  "x2_result": {
+   "path": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/result_incdino_ft_20260806_X2.json",
+   "md5": "00b2804e6fe43f5984d88f70f7b164f9"
+  }
+ },
+ "note": "事後追加（事前登録外）。X2 と同一の LODO Ridge、N_PERM=1000、片側 (perm ρ >= 観測 ρ)。seed 1010..1013（S_sustech6 は 7/27 予稿の転記値 0.001 の再計算）",
+ "n_perm": 1000,
+ "arm": "X2",
+ "target": "scratch_all",
+ "results": {
+  "S_incdino11": {
+   "observed_spearman": 0.8736263736263737,
+   "p_perm": 0.000999000999000999,
+   "seed": 1010,
+   "count_ge": 0
+  },
+  "S_inc6": {
+   "observed_spearman": 0.8791208791208791,
+   "p_perm": 0.000999000999000999,
+   "seed": 1011,
+   "count_ge": 0
+  },
+  "S_dino6": {
+   "observed_spearman": 0.7912087912087913,
+   "p_perm": 0.000999000999000999,
+   "seed": 1012,
+   "count_ge": 0
+  },
+  "S_sustech6": {
+   "observed_spearman": 0.8076923076923077,
+   "p_perm": 0.002997002997002997,
+   "seed": 1013,
+   "count_ge": 2
+  }
+ }
+}

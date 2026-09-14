@@ -1,0 +1,18 @@
+%% 自動生成: make_tables_20260915.py（手で編集しない）
+\begin{table}[tb]
+\caption{データセット優劣判定の性能（156 順序対，leave-one-pair-out，$\tau=0.05$）．M-F1 は Macro-F1．}
+\label{tab:pairwise}
+\begin{center}
+\begin{tabular}{l|cc|cc}
+\Hline
+ & \multicolumn{2}{c|}{スクラッチ} & \multicolumn{2}{c}{ファインチューニング} \\
+特徴空間 & Acc & M-F1 & Acc & M-F1 \\
+\hline
+Inception（6 変数） & 0.859 & 0.847 & 0.795 & 0.800 \\
+DINOv2（6 変数） & 0.769 & 0.756 & 0.756 & 0.763 \\
+Inception+DINOv2（11 変数） & 0.846 & 0.835 & 0.795 & 0.801 \\
+DeepGaitV2（6 変数） & 0.859 & 0.847 & 0.731 & 0.737 \\
+\Hline
+\end{tabular}
+\end{center}
+\end{table}

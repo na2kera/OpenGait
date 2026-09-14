@@ -1,0 +1,128 @@
+% yokou_20260727.tex 用の文献エントリ。既存の Myref.bib の末尾に貼り付けて使う。
+% 2026-07-27 更新: [1] は実際の書誌情報を反映、[2] は @misc 化（pp.●●--●● 対策）、
+%                  [3][4] は会議名を短縮（参考文献リストの行数を約3行削減）。
+
+@article{Nakamura_IEICE,
+  author  = {中村龍乃助 and 村松大吾},
+  title   = {深層特徴空間におけるデータ特性に基づく学習データの有効性評価},
+  journal = {電子情報通信学会技術研究報告},
+  volume  = {125},
+  number  = {426},
+  pages   = {64--68},
+  year    = {2026},
+  note    = {BioX2025-105}
+}
+
+% arXiv プレプリントはページ番号を持たないため @article だと sieicej.bst が
+% pp.●●--●● を出力する。@misc + howpublished にすればページ欄自体が出ない。
+@misc{Fan_DeepGaitV2,
+  author       = {C. Fan and S. Hou and Y. Huang and S. Yu},
+  title        = {Exploring deep models for practical gait recognition},
+  howpublished = {arXiv:2303.03301},
+  year         = {2023}
+}
+
+@inproceedings{Shen_LidarGait,
+  author    = {C. Shen and C. Fan and W. Wu and R. Wang and G. Q. Huang and S. Yu},
+  title     = {{LidarGait}: Benchmarking {3D} gait recognition with point clouds},
+  booktitle = {Proc. CVPR},
+  pages     = {1054--1063},
+  year      = {2023}
+}
+
+@inproceedings{Yu_CASIAB,
+  author    = {S. Yu and D. Tan and T. Tan},
+  title     = {A framework for evaluating the effect of view angle, clothing and carrying condition on gait recognition},
+  booktitle = {Proc. ICPR},
+  volume    = {4},
+  pages     = {441--444},
+  year      = {2006}
+}
+
+% ---- 2026-09-07 追加（技報 2 章・3.2 節用。中村論文の文献 [1][2][5][6][7] に対応）----
+% 出典確認: Heusel=NeurIPS 2017 pp.6626-6637 / Szegedy=CVPR 2016 doi:10.1109/CVPR.2016.308 /
+%           Cetin=IS&T Electronic Imaging 2025 vol.37 no.10 IPAS-237 doi:10.2352/EI.2025.37.10.IPAS-237（arXiv:2406.18430）/
+%           Oquab=TMLR 2024（arXiv:2304.07193）/ Russakovsky=IJCV 2015 doi:10.1007/s11263-015-0816-y
+% 中村論文 [5] は著者の姓名が逆転している（"C. Doruk" → 正しくは D. Cetin）。ここでは正しい順で記載。
+
+@inproceedings{Heusel_FID,
+  author    = {M. Heusel and H. Ramsauer and T. Unterthiner and B. Nessler and S. Hochreiter},
+  title     = {{GANs} trained by a two time-scale update rule converge to a local {Nash} equilibrium},
+  booktitle = {Proc. NeurIPS},
+  volume    = {30},
+  pages     = {6626--6637},
+  year      = {2017}
+}
+
+@inproceedings{Szegedy_InceptionV3,
+  author    = {C. Szegedy and V. Vanhoucke and S. Ioffe and J. Shlens and Z. Wojna},
+  title     = {Rethinking the {Inception} architecture for computer vision},
+  booktitle = {Proc. CVPR},
+  pages     = {2818--2826},
+  year      = {2016},
+  doi       = {10.1109/CVPR.2016.308}
+}
+
+% sieicej.bst の制約: volume と number の併用は警告＋number 無視 → number は note へ。
+% pages の単一ハイフンは n.dashify で "--" に倍化されるので \char45 でエスケープ。姓 "El Helou" は {} で保護。
+@inproceedings{Cetin_FacialFD,
+  author    = {D. Cetin and B. Schesch and P. Stamenkovic and M. {El Helou}},
+  title     = {Facial image feature analysis and its specialization for {Fr\'echet} distance and neighborhoods},
+  booktitle = {Proc. IS\&T Electronic Imaging},
+  volume    = {37},
+  pages     = {237{\char45}1--237{\char45}6},
+  year      = {2025},
+  note      = {no.10, IPAS-237},
+  doi       = {10.2352/EI.2025.37.10.IPAS-237}
+}
+
+% TMLR はページ番号を持たないので @article だと sieicej.bst が pp.••--•• を出す → @misc + howpublished
+@misc{Oquab_DINOv2,
+  author       = {M. Oquab and others},
+  title        = {{DINOv2}: Learning robust visual features without supervision},
+  howpublished = {Transactions on Machine Learning Research},
+  year         = {2024}
+}
+
+@article{Russakovsky_ImageNet,
+  author  = {O. Russakovsky and J. Deng and H. Su and J. Krause and S. Satheesh and S. Ma and Z. Huang and A. Karpathy and A. Khosla and M. Bernstein and A. C. Berg and L. Fei-Fei},
+  title   = {{ImageNet} large scale visual recognition challenge},
+  journal = {International Journal of Computer Vision},
+  volume  = {115},
+  number  = {3},
+  pages   = {211--252},
+  year    = {2015},
+  doi     = {10.1007/s11263-015-0816-y}
+}
+
+%% ---- 2026-09-10 追加（レビュー指摘: データセット名・OpenGait の無引用）。書誌は記憶ベースなので投稿前に要確認 ----
+@article{Takemura_OUMVLP,
+  author  = {N. Takemura and Y. Makihara and D. Muramatsu and T. Echigo and Y. Yagi},
+  title   = {Multi-view large population gait dataset and its performance evaluation for cross-view gait recognition},
+  journal = {IPSJ Transactions on Computer Vision and Applications},
+  volume  = {10},
+  pages   = {1--14},
+  year    = {2018}
+}
+%% Takemura_OUMVLP: Springer の書誌では vol.10, Article 4 (2018), pp.1--14。number={4} は論文番号なので削除（9/10 レビュー）。要確認
+@inproceedings{Zhu_GREW,
+  author    = {Z. Zhu and X. Guo and T. Yang and J. Huang and J. Deng and G. Huang and D. Du and J. Lu and J. Zhou},
+  title     = {Gait recognition in the wild: A benchmark},
+  booktitle = {Proc. ICCV},
+  pages     = {14789--14799},
+  year      = {2021}
+}
+@inproceedings{Zheng_Gait3D,
+  author    = {J. Zheng and X. Liu and W. Liu and L. He and C. Yan and T. Mei},
+  title     = {Gait recognition in the wild with dense {3D} representations and a benchmark},
+  booktitle = {Proc. CVPR},
+  pages     = {20228--20237},
+  year      = {2022}
+}
+@inproceedings{Fan_OpenGait,
+  author    = {C. Fan and J. Liang and C. Shen and S. Hou and Y. Huang and S. Yu},
+  title     = {{OpenGait}: Revisiting gait recognition toward better practicality},
+  booktitle = {Proc. CVPR},
+  pages     = {9707--9716},
+  year      = {2023}
+}
