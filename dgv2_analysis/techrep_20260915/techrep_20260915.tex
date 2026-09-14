@@ -31,13 +31,13 @@
 
 \begin{document}
 \begin{jabstract}
-深層学習モデルの精度は学習データに依存するが，候補データの相対的な有効性を学習前に比較することは容易でない．深層特徴空間のデータ特性から有効性を見積もる枠組みは，汎用画像特徴とスクラッチ学習を対象に提案されている．本稿は，この枠組みを歩容認証における歩容特化特徴とファインチューニング後精度へ拡張する．CASIA-B の 13 サブセットについて，他の 12 サブセットの実測精度を用いる LODO により，汎用画像特徴と歩容特化特徴の各特徴空間でスクラッチ学習後とファインチューニング後の認証精度の順位予測を評価し，4 通りの組合せでの順位相関，特徴空間による条件別の順位相関の傾向，および数値予測が外れる事例を報告する．
+深層学習モデルの精度は学習データに依存するが，候補データの相対的な有効性を学習前に比較することは容易でない．事前に学習データの有効性を見積もる枠組みは，歩容認証を対象とし、汎用画像特徴を用いてスクラッチ学習の精度を予測する手法が提案されている．本稿は，同様に歩容認証を対象とし、この枠組みを歩容特化特徴とファインチューニング後精度へ拡張する．CASIA-B の13 サブセットについて，他の12 サブセットの実測精度を用いるLeave-one-dataset-outにより，汎用画像特徴と歩容特化特徴の各特徴空間でスクラッチ学習後とファインチューニング後の認証精度の順位予測を評価し，4 通りの組合せでの順位相関，特徴空間による条件別の順位相関の傾向，および数値予測が外れる事例を報告する．
 \end{jabstract}
 \begin{jkeyword}
 学習データ有効性評価，データ特性，深層特徴空間，歩容認証，ファインチューニング，順位予測
 \end{jkeyword}
 \begin{eabstract}
-Deep learning model performance depends on training data, but comparing candidate datasets before training is difficult. An existing framework estimates their relative effectiveness from characteristics measured in general-purpose image feature spaces for training from scratch. We extend it to gait-specific features and to accuracy after fine-tuning, and evaluate it on gait recognition. Using 13 CASIA-B subsets, we evaluate ranking predictions of recognition accuracy after training from scratch and after fine-tuning, in the feature spaces of a general-purpose image model and a gait recognition model, by leave-one-dataset-out (LODO) using the measured accuracies of the other 12 subsets. We report the rank correlations for the four combinations, how the per-condition rank correlations differ between the feature spaces, and a case in which the numerical prediction fails.
+The accuracy of deep learning models depends on the training data; however, it is not straightforward to compare the relative effectiveness of candidate datasets prior to training. A framework for estimating the effectiveness of training data in advance has been proposed for gait recognition, in which generic image features are used to predict the recognition accuracy of models trained from scratch. This paper extends this framework to gait-specific features and recognition accuracy after fine-tuning. Using 13 subsets of CASIA-B, we employ a leave-one-dataset-out scheme, in which the measured accuracies of the other 12 subsets are used to predict the accuracy of the held-out subset. We evaluate rank prediction of recognition accuracy after training from scratch and after fine-tuning in feature spaces defined by generic image features and gait-specific features. We report rank correlations for the four combinations, trends in condition-specific rank correlations across the two feature spaces, and cases in which numerical accuracy predictions deviate from the measured accuracies.
 \end{eabstract}
 \begin{ekeyword}
 Evaluation of Training Data Effectiveness, Data Characteristics, Deep Feature Spaces, Gait Recognition, Fine-tuning, Ranking Prediction
