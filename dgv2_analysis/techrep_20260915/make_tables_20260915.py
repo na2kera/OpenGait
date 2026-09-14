@@ -69,7 +69,7 @@ FEATURE_ROWS_MD_EXTRA = [("Inception+DINOv2 冗長除去（9変数, 感度）", 
 # 係数表の変数順（S_inc6 / S_sustech6 の6変数を並置）
 COEF_ROWS = [
     ("$\\log P$（人数）", "log_people", "log_people"),
-    ("MSD（平均クラス内分散）", "Inception_MSD", "DeepGaitV2_MSD"),
+    ("MWCV（平均クラス内分散）", "Inception_MSD", "DeepGaitV2_MSD"),
     ("1NN", "Inception_1NN", "DeepGaitV2_1NN"),
     ("kNN ($k=5$)", "Inception_kNN", "DeepGaitV2_kNN"),
     ("pairFID（平均クラス間距離）", "Inception_FID", "DeepGaitV2_FID"),
@@ -462,7 +462,7 @@ def main():
     md += ["", "S_incdino11（11変数）の ft 係数（絶対値降順）:", "", "| 変数 | 係数 |", "|---|---:|"]
     for k, v in sorted(coef["S_incdino11"].items(), key=lambda kv: -abs(kv[1])):
         md.append(f"| {k} | {fmt_signed(v)} |")
-    md += ["", "注意（0907.md セルフレビュー）: FID_tt が最大絶対値なのは S_inc6 と S_sustech6。S_incdino11 では Inception_kNN / Inception_MSD の方が大きい。"]
+    md += ["", "注意（0907.md セルフレビュー）: FID_tt が最大絶対値なのは S_inc6 と S_sustech6。S_incdino11 では Inception_kNN / Inception_MSD（MWCV）の方が大きい。"]
     write(os.path.join(OUT, "table_coef_ft.md"), "\n".join(md) + "\n")
 
     # ---- JSON（全数値＋出典） -----------------------------------------------
