@@ -30,3 +30,22 @@ PRを作成するときは、ユーザーから別の指示がない限り、ベ
 - **この研究の全実験は test 49人（076-124）系のみ使う**: `CASIA-B.json`（train 75人）/ `CASIA-B-20.json`（15人）/ `CASIA-B-33.json`（25人）/ `CASIA-B-66.json`（50人）。この4つの TEST_SET はリスト完全一致（2026-07-20 検証済み）。
 - **使用禁止（OpenGait標準プロトコル、test 50人 = 075-124）**: `CASIA-B-20-2.json` / `-40` / `-60` / `-80`。`-20-2` は `-20` の「バージョン2」ではなく別プロトコルで、学習者も別人（001-015 vs 016-030）。stock `DeepGaitV2_casiab.yaml`（class_num 74）はこちら側なので、config の派生元にしない。
 - 検算方法: config の `dataset_partition` が指す JSON の TEST_SET が `CASIA-B.json` の TEST_SET とリスト完全一致すること。fine-tuning 用 config は `dgv2_finetune/generate_configs.py` の `validate_source` がこれを機械検証する（`--check` でも毎回実行される）。
+
+# 共有コンテキスト（skill 索引）
+
+この研究のドメイン知識・手順・確定値は `/home/kera/.claude/skills/<name>/SKILL.md` に **1本ずつ実体として** 置いてある。
+Claude Code は skill として自動で読む。**Codex / Cursor CLI は、下表の条件に当てはまったら自分で該当ファイルを read すること**（記憶や推測で答えない）。
+Cursor CLI からは `~/.cursor/skills/<name>`、Codex CLI からは `~/.agents/skills/<name>` に**ディレクトリ単位の**シンボリックリンクを張ってあるので、どちらでも個人スキル（Codex は `$<name>`）として見える（Codex はファイル単位の symlink を辿らないのでディレクトリ単位にしてある）。実体は上記の1か所だけなので、更新は実体側を直す。
+
+| skill | いつ読むか | 実体パス |
+| --- | --- | --- |
+| `paper-manuscript` | 原稿・予稿・技報・執筆・章立て・9/14締切の話。**「論文の主張は」「何を言いたいか」「仮説」「2×2」「汎用 vs 歩容特化」「CL に強い理由」と聞かれたら §3 を読んでそのまま答える**（9/10 確定） | `/home/kera/.claude/skills/paper-manuscript/SKILL.md`（参照論文PDFとtxtが `refs/`、主張は §3） |
+| `research-glossary` | ρ・MAE・LODO・Δ・zero-shot・優劣判定など用語と確定値 | `/home/kera/.claude/skills/research-glossary/SKILL.md` |
+| `training-status` | 学習・テスト・キューの進捗確認、GPU の空き | `/home/kera/.claude/skills/training-status/SKILL.md` |
+| `train-deepgaitv2` | DeepGaitV2 の学習・テストを回す手順 | `/home/kera/.claude/skills/train-deepgaitv2/SKILL.md` |
+| `nakamura-research` | 中村さん側（`/home/ryu`）の研究・コード・結果 | `/home/kera/.claude/skills/nakamura-research/SKILL.md` |
+| `daily-report-sync` | 日報の作成・更新と Notion への反映 | `/home/kera/.claude/skills/daily-report-sync/SKILL.md` |
+
+補足:
+- skill 内の数値はスナップショット。**出典ファイルと食い違ったらファイル側が正**で、skill を更新する。
+- Claude Code の自動メモリ `/home/kera/.claude/projects/-home-kera/memory/` にも進捗の要約がある（`MEMORY.md` が索引）。読むのは自由だが、更新は Claude Code 側に任せる。

@@ -1,0 +1,32 @@
+{
+    "Inception": {
+        "/data/CASIA-B-png/20-data-png": 1.933471456001317,
+        "/data/CASIA-B-png/nm1-2-png": 2.3081788464646302,
+        "/data/CASIA-B-png/bg1-2-png": 3.5038055974168074,
+        "/data/CASIA-B-png/cl1-2-png": 4.03519335883615,
+        "/data/CASIA-B-png/nm1-bg1-png": 2.0700875183837346,
+        "/data/CASIA-B-png/nm1-cl1-png": 1.3725442197045836,
+        "/data/CASIA-B-png/bg1-cl1-png": 2.380903360105364,
+        "/data/CASIA-B-png-75/000-180-png": 33.10450376202687,
+        "/data/CASIA-B-png-75/000-090-png": 9.895695194424547,
+        "/data/CASIA-B-png-75/090-180-png": 9.2605085764291,
+        "/data/CASIA-B-png/nm1-bg1-cl1-png": 1.6437870725510595,
+        "/data/CASIA-B-png/nm2-bg2-cl2-png": 1.79555804360617,
+        "/data/CASIA-B-png/nm6-png": 2.548137588987505
+    },
+    "DINOv2": {
+        "/data/CASIA-B-png/20-data-png": 5.939573360296538,
+        "/data/CASIA-B-png/nm1-2-png": 9.683209965383627,
+        "/data/CASIA-B-png/bg1-2-png": 18.340035031366035,
+        "/data/CASIA-B-png/cl1-2-png": 16.03482274330634,
+        "/data/CASIA-B-png/nm1-bg1-png": 7.6069065439184325,
+        "/data/CASIA-B-png/nm1-cl1-png": 5.2070925656356986,
+        "/data/CASIA-B-png/bg1-cl1-png": 11.639498216578481,
+        "/data/CASIA-B-png-75/000-180-png": 159.07892558200552,
+        "/data/CASIA-B-png-75/000-090-png": 32.28266188244761,
+        "/data/CASIA-B-png-75/090-180-png": 32.066373886715375,
+        "/data/CASIA-B-png/nm1-bg1-cl1-png": 6.315995168533921,
+        "/data/CASIA-B-png/nm2-bg2-cl2-png": 6.376243690942626,
+        "/data/CASIA-B-png/nm6-png": 8.484500722752294
+    }
+}
