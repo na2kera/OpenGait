@@ -1,0 +1,14 @@
+{
+    "/data/CASIA-B-png/nm6-png": {
+        "nm": {
+            "MSD_image_space": 2066.254638671875,
+            "MSD_inception": 0.050804503262043,
+            "MSD_dinov2": 0.8080631494522095
+        },
+        "all": {
+            "MSD_image_space": 2066.254638671875,
+            "MSD_inception": 0.050804503262043,
+            "MSD_dinov2": 0.8080632090568542
+        }
+    }
+}

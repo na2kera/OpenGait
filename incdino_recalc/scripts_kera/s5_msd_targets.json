@@ -1,0 +1,84 @@
+{
+ "20-data": {
+  "Inception_MSD": 0.0500237,
+  "DINO_MSD": 0.788999,
+  "id": 1,
+  "subset_name": null
+ },
+ "nm1-2": {
+  "Inception_MSD": 0.0515269,
+  "DINO_MSD": 0.83147776,
+  "id": 2,
+  "subset_name": null
+ },
+ "bg1-2": {
+  "Inception_MSD": 0.05035661906003952,
+  "DINO_MSD": 0.77432112,
+  "id": 3,
+  "subset_name": null
+ },
+ "cl1-2": {
+  "Inception_MSD": 0.05009624361991882,
+  "DINO_MSD": 0.814807,
+  "id": 4,
+  "subset_name": null
+ },
+ "nm1-bg1": {
+  "Inception_MSD": 0.0511131547391414,
+  "DINO_MSD": 0.809438407421112,
+  "id": 5,
+  "subset_name": null
+ },
+ "nm1-cl1": {
+  "Inception_MSD": 0.051101479679346,
+  "DINO_MSD": 0.829808712005615,
+  "id": 6,
+  "subset_name": null
+ },
+ "bg1-cl1": {
+  "Inception_MSD": 0.050550177693367,
+  "DINO_MSD": 0.802631556987762,
+  "id": 7,
+  "subset_name": null
+ },
+ "000-180": {
+  "Inception_MSD": 0.049926094710826874,
+  "DINO_MSD": 0.652064323425293,
+  "id": 8,
+  "subset_name": null
+ },
+ "000-090": {
+  "Inception_MSD": 0.05196993425488472,
+  "DINO_MSD": 0.8561114072799683,
+  "id": 9,
+  "subset_name": null
+ },
+ "090-180": {
+  "Inception_MSD": 0.05186285078525543,
+  "DINO_MSD": 0.8638979196548462,
+  "id": 10,
+  "subset_name": null
+ },
+ "nm1-bg1-cl1": {
+  "Inception_MSD": 0.0508402548730373,
+  "DINO_MSD": 0.819885492324829,
+  "id": 11,
+  "subset_name": null
+ },
+ "nm2-bg2-cl2": {
+  "Inception_MSD": 0.0502233728766441,
+  "DINO_MSD": 0.794713258743286,
+  "id": 12,
+  "subset_name": null
+ },
+ "nm6": {
+  "Inception_MSD": 0.050804503262043,
+  "DINO_MSD": 0.808063089847564,
+  "id": 13,
+  "subset_name": null
+ },
+ "_source": {
+  "file": "/home/kera/worktrees/incdino-ft-phase3/dgv2_analysis/metrics_incdino_kera_X2.json",
+  "note": "採用値（全体分散）。s5 のゲート比較対象"
+ }
+}

@@ -1,0 +1,24 @@
+{
+    "/data/CASIA-B-png-75/090-180-png": {
+        "nm": {
+            "MSD_image_space": 1924.6558837890625,
+            "MSD_inception": 0.05192382261157036,
+            "MSD_dinov2": 0.8710620403289795
+        },
+        "bg": {
+            "MSD_image_space": 2036.9332275390625,
+            "MSD_inception": 0.05148621276021004,
+            "MSD_dinov2": 0.8133845925331116
+        },
+        "cl": {
+            "MSD_image_space": 2101.15625,
+            "MSD_inception": 0.05070389434695244,
+            "MSD_dinov2": 0.8597412705421448
+        },
+        "all": {
+            "MSD_image_space": 1983.6292724609375,
+            "MSD_inception": 0.05186285078525543,
+            "MSD_dinov2": 0.8638979196548462
+        }
+    }
+}
