@@ -1,0 +1,32 @@
+{
+    "Inception": {
+        "./OpenGait/CASIA-B-png/20-data-png": 1.933471456001317,
+        "./OpenGait/CASIA-B-png/nm1-2-png": 2.3081788464646302,
+        "./OpenGait/CASIA-B-png/bg1-2-png": 3.5038055974168074,
+        "./OpenGait/CASIA-B-png/cl1-2-png": 4.03519335883615,
+        "./OpenGait/CASIA-B-png/nm1-bg1-png": 2.0700875183837346,
+        "./OpenGait/CASIA-B-png/nm1-cl1-png": 1.3725442197045836,
+        "./OpenGait/CASIA-B-png/bg1-cl1-png": 2.380903360105364,
+        "./OpenGait/CASIA-B-png/000-180-png": 33.39576582454984,
+        "./OpenGait/CASIA-B-png/000-090-png": 9.814734239556168,
+        "./OpenGait/CASIA-B-png/090-180-png": 9.269130839998345,
+        "./OpenGait/CASIA-B-png/nm1-bg1-cl1-png": 1.6437870725510595,
+        "./OpenGait/CASIA-B-png/nm2-bg2-cl2-png": 1.79555804360617,
+        "./OpenGait/CASIA-B-png/nm6-png": 2.548137588987505
+    },
+    "DINOv2": {
+        "./OpenGait/CASIA-B-png/20-data-png": 5.939574727471715,
+        "./OpenGait/CASIA-B-png/nm1-2-png": 9.683211108049756,
+        "./OpenGait/CASIA-B-png/bg1-2-png": 18.340038656527504,
+        "./OpenGait/CASIA-B-png/cl1-2-png": 16.034821189055826,
+        "./OpenGait/CASIA-B-png/nm1-bg1-png": 7.606904605380958,
+        "./OpenGait/CASIA-B-png/nm1-cl1-png": 5.2070931269230325,
+        "./OpenGait/CASIA-B-png/bg1-cl1-png": 11.63949769373863,
+        "./OpenGait/CASIA-B-png/000-180-png": 160.61165760101412,
+        "./OpenGait/CASIA-B-png/000-090-png": 31.442881854015376,
+        "./OpenGait/CASIA-B-png/090-180-png": 31.53299909322739,
+        "./OpenGait/CASIA-B-png/nm1-bg1-cl1-png": 6.315995766273586,
+        "./OpenGait/CASIA-B-png/nm2-bg2-cl2-png": 6.376243206832155,
+        "./OpenGait/CASIA-B-png/nm6-png": 8.484504008309788
+    }
+}
