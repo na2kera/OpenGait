@@ -1,0 +1,13 @@
+.latex-out/
+
+# Generated figure previews / unused figure variants (regenerable from scripts + JSON)
+fig_pred_vs_true_*.png
+fig_pred_vs_true_X[0-9]_[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].pdf
+fig_pred_vs_true_X[0-9]_incdino[0-9]*_[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].pdf
+
+# Overleaf upload archives (regenerable) and the IEICE distribution (re-downloadable)
+techrep_overleaf_*.zip
+ieicej_dist/
+
+# Notion-derived memo (private, see AGENTS.md)
+x2_x3_comparison_tables_20260914.md

@@ -193,3 +193,14 @@ transferring
 
 .cursor/
 .DS_Store
+
+# Personal editor settings (fixed UID/GID, local Docker image)
+/.vscode/settings.json
+
+# incdino recalculation runtime artifacts (logs and queue state)
+/incdino_recalc/logs/
+/incdino_recalc/queue/done/
+/incdino_recalc/queue/failed/
+/incdino_recalc/queue/hold/
+/incdino_recalc/queue/running/
+/incdino_recalc/queue/gpu[0-9]*/

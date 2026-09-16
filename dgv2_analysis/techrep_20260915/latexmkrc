@@ -1,0 +1,5 @@
+# upLaTeX + upBibTeX + dvipdfmx configuration for ieicej.cls.
+$latex = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S';
+$bibtex = 'upbibtex -kanji=utf8 %O %B';
+$dvipdf = 'dvipdfmx %O -o %D %S';
+$pdf_mode = 3;

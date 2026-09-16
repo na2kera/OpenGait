@@ -1,0 +1,18 @@
+%% 自動生成: make_tables_20260915.py（手で編集しない）
+\begin{table*}[tb]
+\caption{学習前予測の性能（13 サブセットの LODO）．$\rho$ は Spearman 順位相関，MAE の単位は pt，$p$ は並べ替え検定（1,000 回，片側，$p=(r+1)/(N+1)$．$<$0.001 は超過 0 回）．$\dagger$ はスクラッチ学習について事後に追加した検定．}
+\label{tab:main}
+\begin{center}
+\begin{tabular}{l|ccc|ccc}
+\Hline
+ & \multicolumn{3}{c|}{スクラッチ} & \multicolumn{3}{c}{ファインチューニング} \\
+特徴空間 & $\rho$ & MAE & $p$ & $\rho$ & MAE & $p$ \\
+\hline
+Inception（6 変数） & 0.879 & 7.18 & $<$0.001$^{\dagger}$ & 0.896 & 1.84 & $<$0.001 \\
+DINOv2（6 変数） & 0.808 & 10.39 & $<$0.001$^{\dagger}$ & 0.830 & 3.80 & $<$0.001 \\
+Inception+DINOv2（11 変数） & 0.857 & 9.63 & $<$0.001$^{\dagger}$ & 0.885 & 3.92 & $<$0.001 \\
+DeepGaitV2（6 変数） & 0.808 & 6.41 & 0.003$^{\dagger}$ & 0.742 & 4.38 & 0.004 \\
+\Hline
+\end{tabular}
+\end{center}
+\end{table*}
