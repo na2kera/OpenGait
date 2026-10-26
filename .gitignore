@@ -149,6 +149,7 @@ cython_debug/
 # OpenGait local datasets / symlinks
 /CASIA-B
 /CASIA-B-png
+/CASIA-B-dv
 /GaitDatasetB-silh
 /CB-100/
 
